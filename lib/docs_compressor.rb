@@ -1,7 +1,14 @@
 require 'find'
+require 'fileutils'
 require 'shellwords'
+require 'logging'
 
+# Compresses HTML, JavaScript, and CSS under the given directory, recursively.
+#
+# We do this to leverage gzip_static in nginx.
 class DocsCompressor
+  include Logging
+
   EXTENSIONS = %w(.js .html .css)
 
   def initialize(dir)
@@ -9,8 +16,17 @@ class DocsCompressor
   end
 
   def compress
+    log "compressing #@dir"
+
     Find.find(@dir) do |file|
-      compress_file(file) if compress_file?(file)
+      # The directory with content for the Kindle version of the guides has
+      # HTML files used to build the .mobi file, but they are not served, so
+      # there is no need to compress them.
+      if File.basename(file) == 'kindle'
+        Find.prune
+      elsif compress_file?(file)
+        compress_file(file)
+      end
     end
   end
 
@@ -28,8 +44,6 @@ class DocsCompressor
   end
 
   def compress_file?(file)
-    if EXTENSIONS.include?(File.extname(file))
-      !File.exists?(gzname(file)) || File.mtime(gzname(file)) < File.mtime(file)
-    end
+    EXTENSIONS.include?(File.extname(file)) && !FileUtils.uptodate?(gzname(file), [file])
   end
 end

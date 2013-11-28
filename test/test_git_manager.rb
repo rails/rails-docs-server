@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 require 'git_manager'
 
-class TestGitManager < MiniTest::Unit::TestCase
+class TestGitManager < MiniTest::Test
   def create_repository
     system 'git init -q .'
     system 'touch README'
@@ -52,7 +52,7 @@ class TestGitManager < MiniTest::Unit::TestCase
     end
   end
 
-  def test_sha1
+  def test_sha1_and_short_sha1
     in_tmpdir do
       mkdir_p 'basedir/master'
 
@@ -62,11 +62,10 @@ class TestGitManager < MiniTest::Unit::TestCase
         sha1 = `git rev-parse HEAD`.chomp
       end
 
-      assert_equal sha1, GitManager.new('basedir').sha1
-    end
-  end
+      git_manager = GitManager.new('basedir')
 
-  def test_version
-    assert_equal [3, 2, 14], GitManager.new('.').version('v3.2.14')
+      assert_equal sha1, git_manager.sha1
+      assert_equal sha1[0, 7], git_manager.short_sha1
+    end
   end
 end
