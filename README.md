@@ -4,7 +4,7 @@
 
 * RVM
 
-* `rvm install 2.0.0-p353 -n railsexpress --patch railsexpress`
+* `rvm install 2.0.0-p353 --patch railsexpress -n railsexpress`
 
 * `rvm use 2.0.0-p353-railsexpress do gem install bundler -v 1.3.5 --no-rdoc --no-ri`
 
