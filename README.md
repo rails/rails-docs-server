@@ -1,6 +1,6 @@
-This is the program that generates the documentation in the docs server.
+# Rails Documentation Server Support
 
-# Dependencies
+## Dependencies
 
 * RVM
 
@@ -22,7 +22,7 @@ these are known to work. Ruby and bundler versions are configurable per release,
 so this is forward-compatible, just add new versions if needed and configure
 their target generator to use them.
 
-# Locale
+## Locale
 
 Make sure the locale is UTF8, in Linux run `locale` and see if the values are
 "en_US.UTF-8" in general. In Ubuntu edit the file _/etc/default/locale_ and put
@@ -32,11 +32,8 @@ LC_ALL=en_US.UTF-8
 LANG=en_US.UTF-8
 ```
 
-# Deployment
+## Deployment
 
 Just push to `master`. The cron job in the docs server pulls before invoking
 the docs generator.
 
-# Shelling out
-
-These classes shell out freely, that's fine Ruby is a scripting language.
