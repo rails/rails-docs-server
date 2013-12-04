@@ -49,8 +49,10 @@ class DocsGenerator
   end
 
   def generate
-    generate_stable_docs
-    generate_edge_docs
+    Dir.chdir(basedir) do
+      generate_stable_docs
+      generate_edge_docs
+    end
   end
 
   def generate_stable_docs
@@ -68,7 +70,7 @@ class DocsGenerator
 
   def generate_stable_docs_for?(tag)
     major, minor = version(tag)
-    (major > 3 || (major == 3 && minor == 2)) && !Dir.exists?("#{basedir}/#{tag}")
+    (major > 3 || (major == 3 && minor == 2)) && !Dir.exists?(tag)
   end
 
   def generate_stable_docs_for(tag)
@@ -107,8 +109,8 @@ class DocsGenerator
   end
 
   def adjust_stable_symlink
-    FileUtils.rm_f("#{basedir}/stable")
-    File.symlink("#{basedir}/#{stable_tag}", "#{basedir}/stable")
+    FileUtils.rm_f('stable')
+    File.symlink(stable_tag, 'stable')
   end
 
   def adjust_docs_symlinks
@@ -120,17 +122,18 @@ class DocsGenerator
 
       api_symlink = "#{generator.api_output}/#{tag}"
       unless File.symlink?(api_symlink)
-        File.symlink("#{basedir}/#{tag}/doc/rdoc", api_symlink)
+        target = File.expand_path("#{tag}/doc/rdoc")
+        File.symlink(target, api_symlink)
       end
 
       # Some versions do not have guides, others do but directories may be
       # different. Instead of configuring everything just probe the directories.
       %w(railties/guides/output guides/output).each do |dir|
-        if File.exists?("#{basedir}/#{tag}/#{dir}")
+        target = File.expand_path("#{tag}/#{dir}")
+        if File.exists?(target)
           guides_symlink = "#{generator.guides_output}/#{tag}"
-
           unless File.symlink?(guides_symlink)
-            File.symlink("#{basedir}/#{tag}/#{dir}", "#{generator.guides_output}/#{tag}")
+            File.symlink(target, guides_symlink)
           end
         end
       end
