@@ -31,7 +31,7 @@ class GitManager
   def checkout(tag)
     Dir.chdir(basedir) do
       log "checking out tag #{tag}"
-      system "cp -r master #{tag}"
+      system "git clone -q #{remote_rails_url} #{tag}"
 
       Dir.chdir(tag) do
         system "git checkout -q #{tag}"
