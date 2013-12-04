@@ -101,13 +101,14 @@ class DocsGenerator
 
   def adjust_symlinks
     log 'adjusting symlinks'
+
     adjust_docs_symlinks
     adjust_stable_symlink
   end
 
   def adjust_stable_symlink
-    FileUtils.rm_f('stable')
-    File.symlink(stable_tag, 'stable')
+    FileUtils.rm_f("#{basedir}/stable")
+    File.symlink("#{basedir}/#{stable_tag}", "#{basedir}/stable")
   end
 
   def adjust_docs_symlinks
@@ -119,26 +120,17 @@ class DocsGenerator
 
       api_symlink = "#{generator.api_output}/#{tag}"
       unless File.symlink?(api_symlink)
-        File.symlink(File.expand_path("#{tag}/doc/rdoc"), api_symlink)
+        File.symlink("#{basedir}/#{tag}/doc/rdoc", api_symlink)
       end
 
       # Some versions do not have guides, others do but directories may be
       # different. Instead of configuring everything just probe the directories.
       %w(railties/guides/output guides/output).each do |dir|
-        directory = "#{basedir}/#{tag}/#{dir}"
-        file_exists = File.exists?(directory)
-        log "Checking if #{directory} exists: #{file_exists}"
-
-        if file_exists
+        if File.exists?("#{basedir}/#{tag}/#{dir}")
           guides_symlink = "#{generator.guides_output}/#{tag}"
 
           unless File.symlink?(guides_symlink)
-            target = "#{generator.guides_output}/#{tag}"
-            source = File.expand_path("#{tag}/#{dir}")
-
-            log "Symlinking #{source} to #{target}"
-
-            File.symlink(source, target)
+            File.symlink("#{basedir}/#{tag}/#{dir}", "#{generator.guides_output}/#{tag}")
           end
         end
       end
