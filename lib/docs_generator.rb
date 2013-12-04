@@ -125,7 +125,7 @@ class DocsGenerator
       # Some versions do not have guides, others do but directories may be
       # different. Instead of configuring everything just probe the directories.
       %w(railties/guides/output guides/output).each do |dir|
-        file_exists = File.exists?("#{tag}/#{dir}")
+        file_exists = File.exists?(File.expand_path("#{tag}/#{dir}"))
         log "Checking if #{tag}/#{dir} exists: #{file_exists}"
         if file_exists
           guides_symlink = "#{generator.guides_output}/#{tag}"
