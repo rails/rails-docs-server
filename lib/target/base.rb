@@ -8,7 +8,7 @@ module Target
 
     def initialize(target, basedir)
       @target  = target
-      @basedir = basedir
+      @basedir = File.expand_path(basedir)
     end
 
     def generate

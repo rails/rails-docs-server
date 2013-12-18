@@ -10,15 +10,13 @@ require 'target/master'
 # This class is responsible for coordinating docs generation.
 #
 # The documentation is generated below `basedir`. There, each release and master
-# have their own directory, and a stable symlink points to the most recent
-# stable release:
+# have their own directory:
 #
 #   tag1
 #   tag2
 #   tag3
 #   ...
 #   tagN
-#   stable -> tagN
 #   master
 #
 # Then it checks the tags of the project and detects new releases in any of the
@@ -27,8 +25,22 @@ require 'target/master'
 # ruby and bundler versions it needs, which are the directories for API and
 # guides, and how are they generated.
 #
-# If new releases are detected, symlinks are adjusted as needed. Note that the
-# API and guides directories get symlinks to all the previous versions.
+# Top-level symlinks point to the actual root directories. If we assume v4.1.0
+# is the current stable release, this is the idea:
+#
+#   api/v3.2.0 -> basedir/v3.2.0/doc/rdoc
+#   api/v4.1.0 -> basedir/v4.1.0/doc/rdoc
+#   api/stable -> basedir/api/v4.1.0
+#   api/edge   -> basedir/master/doc/rdoc
+#
+# and same for guides:
+#
+#   guides/v3.2.0 -> basedir/v3.2.0/railties/guides/output
+#   guides/v4.1.0 -> basedir/v4.1.0/guides/output
+#   guides/stable -> basedir/guides/v4.1.0
+#   guides/edge   -> basedir/master/guides/output
+#
+# If new releases are detected, symlinks are adjusted as needed.
 #
 # Once everything related to stable docs is done, edge docs are generated.
 #
@@ -40,6 +52,11 @@ require 'target/master'
 # only one generator being executed at the same time.
 class DocsGenerator
   include Logging
+
+  API    = 'api'
+  GUIDES = 'guides'
+  STABLE = 'stable'
+  EDGE   = 'edge'
 
   attr_reader :basedir, :git_manager
 
@@ -65,7 +82,7 @@ class DocsGenerator
       end
     end
 
-    adjust_symlinks if new_stable_docs
+    adjust_stable_symlinks if new_stable_docs
   end
 
   def generate_stable_docs_for?(tag)
@@ -81,14 +98,22 @@ class DocsGenerator
 
     DocsCompressor.new(generator.api_output).compress
     DocsCompressor.new(generator.guides_output).compress
+
+    create_api_symlink(generator.api_output, tag)
+    create_guides_symlink(generator.guides_output, tag)
   end
 
   def generate_edge_docs
-    generator = Target::Master.new(git_manager.short_sha1, "#{basedir}/master")
+    generator = Target::Master.new(git_manager.short_sha1, 'master')
     generator.generate
 
     DocsCompressor.new(generator.api_output).compress
     DocsCompressor.new(generator.guides_output).compress
+
+    # Force the recreation of the symlink to be forward compatible, if the docs
+    # structure changes in master we need the symlink to point to the new dirs.
+    create_api_symlink(generator.api_output, EDGE, force: true)
+    create_guides_symlink(generator.guides_output, EDGE, force: true)
   end
 
   def stable_generator_for(tag)
@@ -98,43 +123,34 @@ class DocsGenerator
       Target::V4_0_0
     else
       Target::Current
-    end.new(tag, "#{basedir}/#{tag}")
+    end.new(tag, tag)
   end
 
-  def adjust_symlinks
-    log 'adjusting symlinks'
-
-    adjust_docs_symlinks
-    adjust_stable_symlink
+  def create_api_symlink(origin, symlink, options={})
+    create_symlink(API, origin, symlink, options)
   end
 
-  def adjust_stable_symlink
-    FileUtils.rm_f('stable')
-    File.symlink(stable_tag, 'stable')
+  def create_guides_symlink(origin, symlink, options={})
+    create_symlink(GUIDES, origin, symlink, options)
   end
 
-  def adjust_docs_symlinks
+  def create_symlink(dir, origin, symlink, options)
+    FileUtils.mkdir_p(dir)
+
+    Dir.chdir(dir) do
+      FileUtils.rm_f(symlink) if options[:force]
+      File.symlink(origin, symlink)
+    end
+  end
+
+  def adjust_stable_symlinks
     st = stable_tag
-    generator = stable_generator_for(st)
 
-    foreach_tag do |tag|
-      next if tag == st
-
-      api_symlink = "#{generator.api_output}/#{tag}"
-      unless File.symlink?(api_symlink)
-        target = File.expand_path("#{tag}/doc/rdoc")
-        File.symlink(target, api_symlink)
-      end
-
-      # Some versions do not have guides, others do but directories may be
-      # different. Instead of configuring everything just probe the directories.
-      %w(railties/guides/output guides/output).each do |dir|
-        target = File.expand_path("#{tag}/#{dir}")
-        if File.exists?(target)
-          guides_symlink = "#{generator.guides_output}/#{tag}"
-          unless File.symlink?(guides_symlink)
-            File.symlink(target, guides_symlink)
-          end
+    [API, GUIDES].each do |_|
+      Dir.chdir(_) do
+        unless File.exists?(STABLE) && File.readlink(STABLE) == st
+          FileUtils.rm_f(STABLE)
+          File.symlink(st, STABLE)
         end
       end
     end

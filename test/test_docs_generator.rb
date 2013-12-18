@@ -97,12 +97,18 @@ class TestDocsGenerator < MiniTest::Test
         # --- Symlinks -----------------------------------------------------------
         #
 
-        assert_equal 'v4.0.1', File.readlink('stable')
+        assert_equal 'v4.0.1', File.readlink('api/stable')
+        assert_equal 'v4.0.1', File.readlink('guides/stable')
 
-        assert_equal File.expand_path('v3.2.15/doc/rdoc'), File.readlink('stable/doc/rdoc/v3.2.15')
-        assert_equal File.expand_path('v3.2.15/railties/guides/output'), File.readlink('stable/guides/output/v3.2.15')
-        assert_equal File.expand_path('v4.0.0/doc/rdoc'), File.readlink('stable/doc/rdoc/v4.0.0')
-        assert_equal File.expand_path('v4.0.0/guides/output'), File.readlink('stable/guides/output/v4.0.0')
+        assert_equal File.expand_path('v3.2.15/doc/rdoc'), File.readlink('api/v3.2.15')
+        assert_equal File.expand_path('v3.2.15/railties/guides/output'), File.readlink('guides/v3.2.15')
+
+        assert_equal File.expand_path('v4.0.0/doc/rdoc'), File.readlink('api/v4.0.0')
+        assert_equal File.expand_path('v4.0.0/guides/output'), File.readlink('guides/v4.0.0')
+
+        assert_equal File.expand_path('v4.0.1/doc/rdoc'), File.readlink('api/v4.0.1')
+        assert_equal File.expand_path('v4.0.1/guides/output'), File.readlink('guides/v4.0.1')
+
 
         #
         # --- Edge ---------------------------------------------------------------
@@ -121,6 +127,9 @@ class TestDocsGenerator < MiniTest::Test
         assert_exists 'master/guides/output/index.html'
         assert_exists 'master/guides/output/index.html.gz'
         assert_exists "master/guides/output/kindle/ruby_on_rails_guides_#{git_manager.short_sha1}.mobi"
+
+        assert_equal File.expand_path('master/doc/rdoc'), File.readlink('api/edge')
+        assert_equal File.expand_path('master/guides/output'), File.readlink('guides/edge')
 
         html = File.read('master/guides/output/index.html')
         assert html.include?("Ruby on Rails Guides (#{git_manager.short_sha1})")
