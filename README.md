@@ -25,7 +25,7 @@ their target generator to use them.
 ## Locale
 
 Make sure the locale is UTF8, in Linux run `locale` and see if the values are
-"en_US.UTF-8" in general. In Ubuntu edit the file _/etc/default/locale_ and put
+"en\_US.UTF-8" in general. In Ubuntu edit the file _/etc/default/locale_ and put
 
 ```
 LC_ALL=en_US.UTF-8
