@@ -23,7 +23,7 @@ module Target
 
     def install_gems
       Dir.chdir(basedir) do
-        bundle 'install --without db test'
+        bundle 'install --without db test job'
       end
     end
 
