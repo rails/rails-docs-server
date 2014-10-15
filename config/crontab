@@ -9,7 +9,7 @@ BASH_ENV=~/.bash_profile
 
 */1 * * * *  ~/bin/rails_master_hook.sh
 
-@midnight ~/bin/expire_cached_pages.sh
+@midnight ~/rails-docs-server/bin/expire_cached_pages.sh
 @daily ~/rails-docs-server/bin/clean_edge_mobis.sh
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-hooks && unicorn -D -c unicorn.rb
