@@ -11,5 +11,6 @@ BASH_ENV=~/.bash_profile
 
 @midnight ~/rails-docs-server/bin/expire_cached_pages.sh
 @daily ~/rails-docs-server/bin/clean_edge_mobis.sh
+@monthly cd ~/rails-contributors/shared/rails.git && git gc --aggressive
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-hooks && unicorn -D -c unicorn.rb
