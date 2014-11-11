@@ -9,8 +9,15 @@ BASH_ENV=~/.bash_profile
 
 */1 * * * *  ~/bin/rails_master_hook.sh
 
+# The lock file is created and deleted by the master hook. That is a shell
+# script so even if something crashes, the parent process will finish just fine.
+# For some reason in October of 2014 the lock file became stale. Maybe there
+# was a reboot or something really unusual. This job ensures at most it is going
+# to be stale for an hour.
+@hourly test $(( `date +%s` - `stat --format %Y $LOCK_FILE` )) -ge 3600 && rm $LOCK_FILE
 @midnight ~/rails-docs-server/bin/expire_cached_pages.sh
 @daily ~/rails-docs-server/bin/clean_edge_mobis.sh
 @monthly cd ~/rails-contributors/shared/rails.git && git gc --aggressive
+
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-hooks && unicorn -D -c unicorn.rb
