@@ -11,12 +11,23 @@ BASH_ENV=~/.bash_profile
 
 # The lock file is created and deleted by the master hook. That is a shell
 # script so even if something crashes, the parent process will finish just fine.
-# For some reason in October of 2014 the lock file became stale. Maybe there
-# was a reboot or something really unusual. This job ensures at most it is going
-# to be stale for an hour.
+# For some reason in October 2014 the lock file became stale. Maybe there was a
+# reboot or something really unusual. This job ensures at most it is going to be
+# stale for an hour.
 @hourly test $(( `date +%s` - `stat --format %Y $LOCK_FILE` )) -ge 3600 && rm $LOCK_FILE
+
+# The contrib app uses page caching for everything, this job is needed because
+# there are some time-dependent listings that need to be expired regardless of
+# whether there are new commits. Think the "Today" page for example.
 @midnight ~/rails-docs-server/bin/expire_cached_pages.sh
+
+# Mobi files take a lot of space and we generate edge guides for Kindle. We need
+# to keep them under control or else the disk is going to be filled up.
 @daily ~/rails-docs-server/bin/clean_edge_mobis.sh
+
+# The contrib app purges when it pulls, but experience shows that when time
+# passes eventually git warns that more housekeeping is needed, preventing
+# updates. This job makes sure the repo is in good shape.
 @monthly cd ~/rails-contributors/shared/rails.git && git gc --aggressive
 
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
