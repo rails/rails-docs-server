@@ -5,7 +5,7 @@
 # to install the new jobs.
 
 SHELL=/bin/bash
-BASH_ENV=~/.bash_profile
+BASH_ENV=~/.profile
 
 */1 * * * *  ~/bin/rails_master_hook.sh
 
