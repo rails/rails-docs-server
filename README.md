@@ -39,3 +39,12 @@ LANG=en_US.UTF-8
 Just push to `master`. The cron job in the docs server pulls before invoking
 the docs generator.
 
+## Test Suite
+
+In order to run the test suite you need a recent version of minitest:
+
+* `gem install minitest -N`
+
+There are two tasks: The default task, `test`, tests everything except actual
+docs generation. The `test:all` task runs the entire suite including doc
+generation for a few releases, this one takes about 20 minutes in my laptop.
