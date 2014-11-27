@@ -28,7 +28,7 @@ BASH_ENV=~/.profile
 # The contrib app purges when it pulls, but experience shows that when time
 # passes eventually git warns that more housekeeping is needed, preventing
 # updates. This job makes sure the repo is in good shape.
-@monthly cd ~/rails-contributors/shared/rails.git && git gc --aggressive
+@weekly cd ~/rails-contributors/shared/rails.git && git gc --aggressive
 
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-hooks && unicorn -D -c unicorn.rb
