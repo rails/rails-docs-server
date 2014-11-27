@@ -8,6 +8,8 @@
 
 * `rvm use 2.0.0-p353-railsexpress do gem install bundler -v 1.3.5 --no-rdoc --no-ri`
 
+* `rvm use 2.0.0-p353-railsexpress do gem install bundler -v 1.7.7 --no-rdoc --no-ri`
+
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
 * `sudo apt-get install imagemagick`, for `convert`, used by the guides generator
