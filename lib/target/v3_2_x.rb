@@ -3,7 +3,7 @@ require 'target/base'
 module Target
   class V3_2_x < Base
     def ruby_version
-      '2.0.0-p353-railsexpress'
+      '2.0.0-p598-railsexpress'
     end
 
     def bundler_version

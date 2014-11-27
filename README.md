@@ -4,11 +4,11 @@
 
 * RVM
 
-* `rvm install 2.0.0-p353 --patch railsexpress -n railsexpress`
+* `rvm install 2.0.0-p598 --patch railsexpress -n railsexpress`
 
-* `rvm use 2.0.0-p353-railsexpress do gem install bundler -v 1.3.5 --no-rdoc --no-ri`
+* `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.3.5 --no-rdoc --no-ri`
 
-* `rvm use 2.0.0-p353-railsexpress do gem install bundler -v 1.7.7 --no-rdoc --no-ri`
+* `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.7.7 --no-rdoc --no-ri`
 
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
@@ -16,8 +16,8 @@
 
 * `sudo apt-get install libxslt-dev libxml2-dev` for Nokogiri, present in some Gemfiles
 
-There is no need to have `2.0.0-p353-railsexpress` as default interpreter, the
-docs generator uses `rvm 2.0.0-p353-railsexpress do ...` everywhere.
+There is no need to have `2.0.0-p598-railsexpress` as default interpreter, the
+docs generator uses `rvm 2.0.0-p598-railsexpress do ...` everywhere.
 
 The Ruby and bundler dependencies are not hard, we fix concrete versions because
 these are known to work. Ruby and bundler versions are configurable per release,
