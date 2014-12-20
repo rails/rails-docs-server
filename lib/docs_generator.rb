@@ -2,10 +2,9 @@ require 'logging'
 require 'docs_compressor'
 require 'git_manager'
 
-require 'target/v3_2_x'
-require 'target/v4_0_0'
-require 'target/current'
-require 'target/master'
+Dir.glob("#{__dir__}/target/*.rb") do |target|
+  require target unless File.basename(target) == 'base.rb'
+end
 
 # This class is responsible for coordinating docs generation.
 #
@@ -116,11 +115,17 @@ class DocsGenerator
     create_guides_symlink(generator.guides_output, EDGE, force: true)
   end
 
+  # TODO: auto-discover the klass. Exact match first, most recent class within
+  # the ordered collection of versions second.
   def stable_generator_for(tag)
     if tag.start_with?('v3.2.')
       Target::V3_2_x
     elsif tag == 'v4.0.0'
       Target::V4_0_0
+    elsif tag.start_with?('v4.0.') or tag.start_with?('v4.1.')
+      Target::V4_0_1
+    elsif tag == 'v4.2.0'
+      Target::V4_2_0
     else
       Target::Current
     end.new(tag, tag)
