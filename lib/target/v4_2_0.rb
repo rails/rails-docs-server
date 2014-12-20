@@ -7,5 +7,14 @@ module Target
     def bundler_version
       '1.7.7'
     end
+
+    def install_gems
+      # This Gemfile had a dependency that could not be satisfied.
+      gemfile = File.read('Gemfile')
+      gemfile.sub!(/^.*delayed_job_active_record.*$/, '')
+      File.write('Gemfile', gemfile)
+
+      super
+    end
   end
 end
