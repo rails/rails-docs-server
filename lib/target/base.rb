@@ -48,5 +48,12 @@ module Target
     def bundle(command, env={})
       run "bundle _#{bundler_version}_ #{command}", env
     end
+
+    def patch(filename)
+      original = File.read(filename)
+      patched  = yield original
+
+      File.write(filename, patched)
+    end
   end
 end

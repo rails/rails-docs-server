@@ -10,9 +10,9 @@ module Target
 
     def install_gems
       # This Gemfile had a dependency that could not be satisfied.
-      gemfile = File.read('Gemfile')
-      gemfile.sub!(/^.*delayed_job_active_record.*$/, '')
-      File.write('Gemfile', gemfile)
+      patch 'Gemfile' do |contents|
+        contents.sub(/^.*delayed_job_active_record.*$/, '')
+      end
 
       super
     end
