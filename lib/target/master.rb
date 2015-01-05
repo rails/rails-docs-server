@@ -9,6 +9,14 @@ module Target
       super(short_sha1, basedir)
     end
 
+    def ruby_version
+      '2.2.0'
+    end
+
+    def bundler_version
+      '1.7.10'
+    end
+
     def install_gems
       super
 
