@@ -14,7 +14,7 @@ module Target
     end
 
     def bundler_version
-      '1.7.10'
+      '1.7.12'
     end
 
     def install_gems
