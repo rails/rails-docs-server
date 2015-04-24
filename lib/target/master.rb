@@ -17,14 +17,6 @@ module Target
       '1.7.12'
     end
 
-    def install_gems
-      super
-
-      Dir.chdir(basedir) do
-        bundle 'update'
-      end
-    end
-
     def generate_api
       rake 'rdoc', 'EDGE' => '1'
       insert_edge_badge
