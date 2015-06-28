@@ -23,6 +23,12 @@ class GitManager
 
       Dir.chdir('master') do
         log 'updating master'
+
+        # Bundler may modify BUNDLED WITH in Gemfile.lock and that may prevent
+        # git pull from succeeding. Starting with Bundler 1.10, if Gemfile.lock
+        # does not change BUNDLED WITH is left as is, even if versions differ,
+        # but since docs generation is automated better play safe.
+        system 'git checkout Gemfile.lock'
         system 'git pull -q'
       end
     end
