@@ -115,28 +115,17 @@ class DocsGenerator
     create_guides_symlink(generator.guides_output, EDGE, force: true)
   end
 
-  # TODO: auto-discover the klass. Exact match first, most recent class within
-  # the ordered collection of versions second.
   def stable_generator_for(tag)
-    major, minor, tiny = version(tag)
+    available_targets = Target.constants.grep(/\AV/).map do |cname|
+      [cname, cname.to_s.scan(/\d+/).map(&:to_i)]
+    end
+    available_targets.sort! { |a, b| b <=> a }
 
-    # These branches are written this way in order to be forward compatible. As
-    # long as the target classes generate the documentation for any tag that
-    # falls in their branch, we do not need to update the docs generator, even
-    # for new major releases.
-    if major == 3
-      Target::V3_2_x
-    elsif major == 4 && minor == 0 && tiny == 0
-      Target::V4_0_0
-    elsif major == 4 && minor == 0
-      Target::V4_0_1
-    elsif major == 4 && minor == 1
-      tiny < 12 ? Target::V4_0_1 : Target::V4_1_12
-    elsif major == 4 && minor == 2 && tiny <= 2
-      Target::V4_2_0
-    else
-      Target::Current
-    end.new(tag, tag)
+    target = available_targets.detect do |_, target_version|
+      (target_version <=> version(tag)) != 1
+    end
+
+    Target.const_get(target.first).new(tag, tag)
   end
 
   def create_api_symlink(origin, symlink, options={})
