@@ -14,7 +14,7 @@ module Target
     end
 
     def bundler_version
-      '1.7.12'
+      '1.10.5'
     end
 
     def generate_api

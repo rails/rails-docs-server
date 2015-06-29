@@ -12,7 +12,11 @@
 
 * `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.7.7 --no-rdoc --no-ri`
 
+* `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.10.5 --no-rdoc --no-ri`
+
 * `rvm use 2.2.0 do gem install bundler -v 1.7.12 --no-rdoc --no-ri`
+
+* `rvm use 2.2.0 do gem install bundler -v 1.10.5 --no-rdoc --no-ri`
 
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 

@@ -38,6 +38,31 @@ class TestDocsGenerator < MiniTest::Test
     end
   end
 
+  def test_stable_generator_for
+    docs_generator = DocsGenerator.new('.')
+
+    {
+      'v3.2.0'  => Target::V3_2_x,
+      'v3.2.22' => Target::V3_2_x,
+      'v4.0.0'  => Target::V4_0_0,
+      'v4.0.1'  => Target::V4_0_1,
+      'v4.0.13' => Target::V4_0_1,
+      'v4.1.0'  => Target::V4_0_1,
+      'v4.1.11' => Target::V4_0_1,
+      'v4.1.12' => Target::V4_1_12,
+      'v4.2.0'  => Target::V4_2_0,
+      'v4.2.2'  => Target::V4_2_0,
+      'v4.2.3'  => Target::Current,
+      'v9.9.9'  => Target::Current,
+    }.each do |tag, klass|
+      target = docs_generator.stable_generator_for(tag)
+
+      assert_instance_of klass, target
+      assert_equal tag, target.target
+      assert_equal File.expand_path(tag), target.basedir
+    end
+  end
+
   def test_generates_docs
     skip 'skipping docs generation' unless ENV['TEST_DOCS_GENERATION']
 
