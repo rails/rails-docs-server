@@ -1,3 +1,4 @@
+require 'set'
 require 'logging'
 require 'docs_compressor'
 require 'git_manager'
@@ -28,22 +29,26 @@ end
 # is the current stable release, this is the idea:
 #
 #   api/v3.2.0 -> basedir/v3.2.0/doc/rdoc
+#   api/v3.2   -> api/v3.2.0
 #   api/v4.1.0 -> basedir/v4.1.0/doc/rdoc
-#   api/stable -> basedir/api/v4.1.0
+#   api/v4.1   -> api/v4.1.0
+#   api/stable -> api/v4.1.0
 #   api/edge   -> basedir/master/doc/rdoc
 #
 # and same for guides:
 #
 #   guides/v3.2.0 -> basedir/v3.2.0/railties/guides/output
+#   guides/v3.2   -> guides/v3.2.0
 #   guides/v4.1.0 -> basedir/v4.1.0/guides/output
-#   guides/stable -> basedir/guides/v4.1.0
+#   guides/v4.1   -> guides/v4.1.0
+#   guides/stable -> guides/v4.1.0
 #   guides/edge   -> basedir/master/guides/output
 #
 # If new releases are detected, symlinks are adjusted as needed.
 #
 # Once everything related to stable docs is done, edge docs are generated.
 #
-# Documentation files are further compressed to leverage nginz gzip_static.
+# Documentation files are further compressed to leverage NGINX gzip_static.
 #
 # The docs generator assumes a master directory with an up to date working
 # copy, it is the responsability of the caller to get that in place via the
@@ -81,7 +86,7 @@ class DocsGenerator
       end
     end
 
-    adjust_stable_symlinks if new_stable_docs
+    adjust_symlinks_for_series if new_stable_docs
   end
 
   def generate_stable_docs_for?(tag)
@@ -145,27 +150,41 @@ class DocsGenerator
     end
   end
 
-  def adjust_stable_symlinks
-    st = stable_tag
-
-    [API, GUIDES].each do |_|
-      Dir.chdir(_) do
-        unless File.exists?(STABLE) && File.readlink(STABLE) == st
-          FileUtils.rm_f(STABLE)
-          File.symlink(st, STABLE)
+  def adjust_symlinks_for_series
+    series.each do |series, target|
+      [API, GUIDES].each do |_|
+        Dir.chdir(_) do
+          unless File.exists?(series) && File.readlink(series) == target
+            FileUtils.rm_f(series)
+            File.symlink(target, series)
+          end
         end
       end
     end
   end
 
-  def stable_tag
-    stable_tag = 'v0.0.0'
+  def series
+    sds = stable_directories
 
-    foreach_tag do |tag|
-      stable_tag = tag if compare_tags(stable_tag, tag) == -1
+    {STABLE => max_tag(sds)}.tap do |series|
+      directories_per_serie = sds.to_set.classify {|sd| sd[/v\d+.\d+/]}
+
+      directories_per_serie.each do |s, dirs|
+        series[s] = max_tag(dirs)
+      end
     end
+  end
 
-    stable_tag
+  def stable_directories
+    [].tap do |dirs|
+      Dir.foreach(basedir) do |fname|
+        dirs << fname if File.basename(fname) =~ /\Av[\d.]+\z/
+      end
+    end
+  end
+
+  def max_tag(tags)
+    tags.max {|t, g| compare_tags(t, g)}
   end
 
   def compare_tags(tag1, tag2)
@@ -180,11 +199,5 @@ class DocsGenerator
 
   def version(tag)
     tag.scan(/\d+/).map(&:to_i)
-  end
-
-  def foreach_tag
-    Dir.foreach(basedir) do |fname|
-      yield fname if File.basename(fname) =~ /\Av[\d.]+\z/
-    end
   end
 end

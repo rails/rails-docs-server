@@ -12,18 +12,40 @@ class TestDocsGenerator < MiniTest::Test
     assert_equal [3, 2, 14], docs_generator.version('v3.2.14')
   end
 
-  def test_stable_tag
+  def test_series
+    stable_directories = %w(v3.1.2 v3.1.0 v4.2.1 v4.2.7 v5.0.0)
+    expected = {
+      'v3.1'   => 'v3.1.2',
+      'v4.2'   => 'v4.2.7',
+      'v5.0'   => 'v5.0.0',
+      'stable' => 'v5.0.0'
+    }
+
     in_tmpdir do
       mkdir 'basedir'
 
       Dir.chdir('basedir') do
-        mkdir 'v4.0.1'
-        mkdir 'v4.1.7'
-        mkdir 'v4.11.2'
-        mkdir 'v3.1.2'
+        stable_directories.each {|sd| mkdir sd}
       end
 
-      assert_equal 'v4.11.2', DocsGenerator.new('basedir').stable_tag
+      assert_equal expected, docs_generator = DocsGenerator.new('basedir').series
+    end
+  end
+
+  def test_stable_directories
+    stable_directories = %w(v4.0.1 v4.1.7 v4.11.2 v3.1.2)
+
+    in_tmpdir do
+      mkdir 'basedir'
+
+      Dir.chdir('basedir') do
+        mkdir 'bin'
+        mkdir '.ssh'
+
+        stable_directories.each {|sd| mkdir sd}
+      end
+
+      assert_equal stable_directories.sort, docs_generator = DocsGenerator.new('basedir').stable_directories.sort
     end
   end
 
@@ -36,6 +58,12 @@ class TestDocsGenerator < MiniTest::Test
       assert_equal  0, docs_generator.compare_tags(tag2, tag2)
       assert_equal  1, docs_generator.compare_tags(tag2, tag1)
     end
+  end
+
+  def test_max_tag
+    docs_generator = DocsGenerator.new('.')
+
+    assert_equal 'v4.0.0.1', docs_generator.max_tag(%w(v2.3.0 v4.0.0 v3.0.4 v3.1.2 v4.0.0.1 v3.2.8))
   end
 
   def test_stable_generator_for
@@ -123,9 +151,6 @@ class TestDocsGenerator < MiniTest::Test
         # --- Symlinks -----------------------------------------------------------
         #
 
-        assert_equal 'v4.0.1', File.readlink('api/stable')
-        assert_equal 'v4.0.1', File.readlink('guides/stable')
-
         assert_equal File.expand_path('v3.2.15/doc/rdoc'), File.readlink('api/v3.2.15')
         assert_equal File.expand_path('v3.2.15/railties/guides/output'), File.readlink('guides/v3.2.15')
 
@@ -135,6 +160,14 @@ class TestDocsGenerator < MiniTest::Test
         assert_equal File.expand_path('v4.0.1/doc/rdoc'), File.readlink('api/v4.0.1')
         assert_equal File.expand_path('v4.0.1/guides/output'), File.readlink('guides/v4.0.1')
 
+        assert_equal 'v3.2.15', File.readlink('api/v3.2')
+        assert_equal 'v3.2.15', File.readlink('guides/v3.2')
+
+        assert_equal 'v4.0.1', File.readlink('api/v4.0')
+        assert_equal 'v4.0.1', File.readlink('guides/v4.0')
+
+        assert_equal 'v4.0.1', File.readlink('api/stable')
+        assert_equal 'v4.0.1', File.readlink('guides/stable')
 
         #
         # --- Edge ---------------------------------------------------------------
