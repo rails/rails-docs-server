@@ -32,6 +32,31 @@ class TestDocsGenerator < MiniTest::Test
     end
   end
 
+  def test_version_json
+    stable_directories = %w(v3.1.2 v3.1.0 v4.2.1 v4.2.7 v5.0.0)
+    expected = '[{"series":"5.0","version":"5.0.0","date":"2000-01-01 01:12:23 +0100"},'\
+                '{"series":"4.2","version":"4.2.7","date":"2000-01-01 01:12:23 +0100"},'\
+                '{"series":"3.1","version":"3.1.2","date":"2000-01-01 01:12:23 +0100"}]'
+
+    in_tmpdir do
+      mkdir 'basedir'
+      mkdir 'api'
+      mkdir 'guides'
+
+      Dir.chdir('basedir') do
+        stable_directories.each {|sd| mkdir sd}
+      end
+
+      git_manager = GitManager.new('basedir')
+
+      git_manager.stub(:tag_date, '2000-01-01 01:12:23 +0100') do
+        DocsGenerator.new('basedir', git_manager).adjust_json_for_series
+      end
+
+      assert_equal expected, File.read('api/versions.json')
+    end
+  end
+
   def test_stable_directories
     stable_directories = %w(v4.0.1 v4.1.7 v4.11.2 v3.1.2)
 
