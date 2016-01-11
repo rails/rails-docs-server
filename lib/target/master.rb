@@ -10,11 +10,11 @@ module Target
     end
 
     def ruby_version
-      '2.2.0'
+      '2.2.2'
     end
 
     def bundler_version
-      '1.10.5'
+      '1.11.2'
     end
 
     def generate_api
