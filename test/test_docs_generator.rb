@@ -82,7 +82,8 @@ class TestDocsGenerator < MiniTest::Test
       'v4.2.1'  => Target::V4_2_1,
       'v4.2.2'  => Target::V4_2_1,
       'v4.2.3'  => Target::V4_2_3,
-      'v9.9.9'  => Target::V4_2_3,
+      'v5.0.0'  => Target::V5_0_0,
+      'v9.9.9'  => Target::V5_0_0,
     }.each do |tag, klass|
       target = docs_generator.stable_generator_for(tag)
 

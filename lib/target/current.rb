@@ -1,5 +1,5 @@
-require 'target/v4_2_3'
+require 'target/v5_0_0'
 
 module Target
-  Current = V4_2_3
+  Current = V5_0_0
 end
