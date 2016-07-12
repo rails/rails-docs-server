@@ -27,8 +27,8 @@ BASH_ENV=~/.profile
 
 # Git complains from time to time about unreachable objects. This job makes sure
 # the repo is kept in good shape.
-@weekly cd ~/master && git prune && git gc --aggressive
-@weekly cd ~/rails-contributors/shared/rails.git && git prune && git gc --aggressive
+@daily cd ~/master && git prune && git gc --aggressive
+@daily cd ~/rails-contributors/shared/rails.git && git prune && git gc --aggressive
 
 @reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-hooks && unicorn -D -c unicorn.rb
