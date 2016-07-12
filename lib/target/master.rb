@@ -18,7 +18,7 @@ module Target
     end
 
     def generate_api
-      rake 'rdoc', 'EDGE' => '1', 'ALL' => 1
+      rake 'rdoc', 'EDGE' => '1', 'ALL' => '1'
       insert_edge_badge
     end
 
