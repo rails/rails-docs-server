@@ -51,6 +51,12 @@ class GitManager
     end
   end
 
+  def tag_date(tag)
+    Dir.chdir("#{basedir}/master") do
+      `git for-each-ref --format="%(taggerdate:iso8601)" refs/tags/#{tag}`.chomp
+    end
+  end
+
   def short_sha1
     sha1[0, 7]
   end

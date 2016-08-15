@@ -1,5 +1,6 @@
 require 'set'
 require 'logging'
+require 'json'
 require 'docs_compressor'
 require 'git_manager'
 
@@ -86,7 +87,10 @@ class DocsGenerator
       end
     end
 
-    adjust_symlinks_for_series if new_stable_docs
+    if new_stable_docs
+      adjust_symlinks_for_series
+      adjust_json_for_series
+    end
   end
 
   def generate_stable_docs_for?(tag)
@@ -160,6 +164,29 @@ class DocsGenerator
           end
         end
       end
+    end
+  end
+
+  def adjust_json_for_series
+    entries = series.map { |series, tag|
+      next if series == STABLE
+      { series: series.delete('v'), version: tag.delete('v'), date: git_manager.tag_date(tag) }
+    }.compact.sort { |a, b| compare_tags(b[:version], a[:version]) }
+
+    json_content = JSON.dump(entries)
+    js_content = 'currentRailsVersions(' + json_content + ');'
+
+    [API, GUIDES].each do |_|
+      Dir.chdir(_) do
+        ensure_file 'versions.json', json_content
+        ensure_file 'versions.js', js_content
+      end
+    end
+  end
+
+  def ensure_file(filename, content)
+    unless File.exist?(filename) && File.read(filename) == content
+      File.open(filename, 'w') { |f| f.write(content) }
     end
   end
 

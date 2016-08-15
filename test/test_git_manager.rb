@@ -52,6 +52,24 @@ class TestGitManager < MiniTest::Test
     end
   end
 
+  def test_tag_date
+    in_tmpdir do
+      mkdir_p 'basedir/master'
+
+      chdir 'basedir/master' do
+        create_repository
+        %w(0.9.4.1 2.3.9.pre 3.0.0_RC2 3.2.8.rc1 3.2.14 v4.0.0.beta1 4.0.1).each_with_index do |version, idx|
+          system "GIT_COMMITTER_DATE='2000-01-#{10 + idx} 01:23:45 -0200' git tag -a -m 'Release' v#{version}"
+        end
+      end
+
+      git_manager = GitManager.new('basedir')
+      assert_equal '2000-01-10 01:23:45 -0200', git_manager.tag_date('v0.9.4.1')
+      assert_equal '2000-01-14 01:23:45 -0200', git_manager.tag_date('v3.2.14')
+      assert_equal '2000-01-16 01:23:45 -0200', git_manager.tag_date('v4.0.1')
+    end
+  end
+
   def test_sha1_and_short_sha1
     in_tmpdir do
       mkdir_p 'basedir/master'
