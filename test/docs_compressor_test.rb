@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 require 'docs_compressor'
 
-class TestDocsCompressor < MiniTest::Test
+class DocsCompressorTest < Minitest::Test
   def test_compresses_files_of_known_extensions
     in_tmpdir do
       DocsCompressor::EXTENSIONS.each do |ext|

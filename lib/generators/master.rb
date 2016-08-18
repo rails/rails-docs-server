@@ -1,21 +1,9 @@
-require 'find'
-require 'fileutils'
+require 'generators/base'
+require 'generators/config/master'
 
-require 'target/current'
-
-module Target
-  class Master < Current
-    def initialize(short_sha1, basedir)
-      super(short_sha1, basedir)
-    end
-
-    def ruby_version
-      '2.2.2'
-    end
-
-    def bundler_version
-      '1.11.2'
-    end
+module Generators
+  class Master < Base
+    include Config::Master
 
     def generate_api
       rake 'rdoc', 'EDGE' => '1', 'ALL' => '1'
@@ -28,6 +16,8 @@ module Target
         rake 'guides:generate:kindle', 'RAILS_VERSION' => target, 'EDGE' => '1'
       end
     end
+
+    private
 
     def insert_edge_badge
       %w(classes files).each do |subdir|

@@ -4,7 +4,7 @@ require 'fileutils'
 
 $:.unshift(File.realpath("#{__dir__}/../lib"))
 
-class MiniTest::Test
+Minitest::Test.class_eval do
   include FileUtils
 
   def in_tmpdir
@@ -22,16 +22,18 @@ class MiniTest::Test
   end
 
   def assert_exists(fname)
-    assert File.exists?(fname)
+    assert File.exist?(fname)
   end
 
   def refute_exists(fname)
-    refute File.exists?(fname)
+    refute File.exist?(fname)
   end
 end
 
 require 'logging'
 module Logging
-  def log(*)
-  end
+  prepend Module.new {
+    def log(*)
+    end
+  }
 end

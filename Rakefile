@@ -1,9 +1,9 @@
 require 'rake/testtask'
 
-task :default => :test
+task default: :test
 
 Rake::TestTask.new do |t|
-  t.test_files = Dir.glob('test/test_*.rb') - %w(test/test_helper.rb)
+  t.test_files = FileList['test/*_test.rb']
 end
 
 namespace :test do

@@ -4,8 +4,6 @@
 
 * RVM
 
-* `rvm install 2.2.2`
-
 * `rvm install 2.0.0-p598 --patch railsexpress -n railsexpress`
 
 * `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.3.5 --no-rdoc --no-ri`
@@ -13,6 +11,8 @@
 * `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.7.7 --no-rdoc --no-ri`
 
 * `rvm use 2.0.0-p598-railsexpress do gem install bundler -v 1.10.5 --no-rdoc --no-ri`
+
+* `rvm install 2.2.2`
 
 * `rvm use 2.2.2 do gem install bundler -v 1.11.2 --no-rdoc --no-ri`
 

@@ -16,7 +16,7 @@ class GitManager
 
   def update_master
     Dir.chdir(basedir) do
-      unless Dir.exists?('master')
+      unless Dir.exist?('master')
         log "cloning master into #{basedir}/master"
         system "git clone -q #{remote_rails_url} master"
       end

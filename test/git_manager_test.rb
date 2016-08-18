@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 require 'git_manager'
 
-class TestGitManager < MiniTest::Test
+class GitManagerTest < Minitest::Test
   def create_repository
     system 'git init -q .'
     system 'touch README'
@@ -31,7 +31,7 @@ class TestGitManager < MiniTest::Test
         gm.checkout('t1')
       end
 
-      assert Dir.exists?('basedir/t1')
+      assert Dir.exist?('basedir/t1')
       assert_equal "t1\n", File.read('basedir/t1/README')
     end
   end
