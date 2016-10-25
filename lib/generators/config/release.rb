@@ -10,7 +10,7 @@ module Generators
         if version_number < '5.0.0'
           '2.0.0-p598-railsexpress'
         else
-          '2.2.2'
+          '2.2.5'
         end
       end
 
