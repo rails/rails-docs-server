@@ -19,6 +19,12 @@ class LockFile
       FileUtils.rm_f(filename)
     end
   rescue Errno::EEXIST
+    # If the machine crashes we could get a stale lock file.
+    if Time.now - File.ctime(filename) > 3600
+      FileUtils.rm_f(filename)
+      retry
+    end
+
     log "couldn't acquire lock file #{filename}"
   end
 end
