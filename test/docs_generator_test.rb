@@ -62,6 +62,16 @@ class DocsGeneratorTest < Minitest::Test
       git_manager = GitManager.new('basedir')
       git_manager.update_master
 
+      mkdir_p 'master/doc/rdoc'
+
+      html_orphan = 'master/doc/rdoc/orphan.html'
+      touch html_orphan
+      assert_exists html_orphan # ensure the setup is correct to prevent a false positive later
+
+      html_gz_orphan = 'master/doc/rdoc/orphan.html.gz'
+      touch html_gz_orphan
+      assert_exists html_gz_orphan # ensure the setup is correct to prevent a false positive later
+
       git_manager.stub(:release_tags, release_tags) do
         docs_generator = DocsGenerator.new('basedir', git_manager)
         docs_generator.generate
@@ -117,6 +127,9 @@ class DocsGeneratorTest < Minitest::Test
         html = File.read('master/guides/output/index.html')
         assert html.include?("Ruby on Rails Guides (#{git_manager.short_sha1})")
         assert html.include?('<img src="images/edge_badge.png"')
+
+        refute_exists html_orphan
+        refute_exists html_gz_orphan
       end
     end
   end
