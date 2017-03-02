@@ -30,7 +30,7 @@ module Generators
 
           # This is a bit hackish but simple enough. Future API tools would
           # ideally have support for this like we have in the guides.
-          html = File.read(fname)
+          html = File.read(fname, encoding: 'ASCII-8BIT')
           unless html.include?('<img src="/edge_badge.png"')
             html.sub!(%r{<body[^>]*>}, '\\&<div><img src="/edge_badge.png" alt="edge badge" style="position:fixed;right:0px;top:0px;z-index:100;border:none;"/></div>')
             File.write(fname, html)
