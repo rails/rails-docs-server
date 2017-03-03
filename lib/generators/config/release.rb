@@ -24,10 +24,12 @@ module Generators
           '1.10.5'
         elsif version_number < '4.2.3'
           '1.7.7'
-        elsif version_number < '5.0.0'
+        elsif version_number < '4.2.8'
           '1.10.5'
         else
-          '1.11.2'
+          # 4.2.8 needs a newer bundler because the Gemfile refers to the
+          # :mri_23 platform, which is unknown for 1.10.5 and errs.
+          '1.14.4'
         end
       end
 

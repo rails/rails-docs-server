@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'version_number'
 require 'generators/base'
 require 'generators/config/release'
@@ -22,6 +23,11 @@ module Generators
           # This dependency could not be satisfied.
           contents.sub(/^.*delayed_job_active_record.*$/, '')
         end
+      elsif version_number == '4.2.8'
+        # The Nokogiri dependency fixed in Gemfile.lock errs with
+        #
+        #   nokogiri-1.7.0 requires ruby version >= 2.1.0, which is incompatible with the current version, ruby 2.0.0p598
+        FileUtils.rm_f('Gemfile.lock')
       end
 
       patch 'Gemfile' do |contents|

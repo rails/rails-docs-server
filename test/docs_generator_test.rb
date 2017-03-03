@@ -54,7 +54,7 @@ class DocsGeneratorTest < Minitest::Test
   def test_generates_docs
     skip 'skipping docs generation, execute test:all (these take a lot of time)' unless ENV['TEST_DOCS_GENERATION']
 
-    release_tags = %w(v3.2.15 v4.0.0 v4.0.1 v5.0.0)
+    release_tags = %w(v3.2.15 v4.0.0 v4.0.1 v4.2.8 v5.0.0)
 
     in_tmpdir do
       mkdir 'basedir'
@@ -96,6 +96,9 @@ class DocsGeneratorTest < Minitest::Test
 
         assert_equal 'v4.0.1', File.readlink('api/v4.0')
         assert_equal 'v4.0.1', File.readlink('guides/v4.0')
+
+        assert_equal 'v4.2.8', File.readlink('api/v4.2')
+        assert_equal 'v4.2.8', File.readlink('guides/v4.2')
 
         assert_equal 'v5.0.0', File.readlink('api/v5.0')
         assert_equal 'v5.0.0', File.readlink('guides/v5.0')
