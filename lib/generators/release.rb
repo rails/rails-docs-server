@@ -23,10 +23,13 @@ module Generators
           # This dependency could not be satisfied.
           contents.sub(/^.*delayed_job_active_record.*$/, '')
         end
-      elsif version_number == '4.2.8'
+      elsif version_number >= '4.2.8'
         # The Nokogiri dependency fixed in Gemfile.lock errs with
         #
         #   nokogiri-1.7.0 requires ruby version >= 2.1.0, which is incompatible with the current version, ruby 2.0.0p598
+        FileUtils.rm_f('Gemfile.lock')
+      elsif version_number == '4.2.9'
+        # bundle install errs, it says "You have requested: nokogiri ~> 1.6.0. The bundle currently has nokogiri locked at 1.8.0.
         FileUtils.rm_f('Gemfile.lock')
       end
 
