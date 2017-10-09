@@ -31,6 +31,17 @@ module Generators
       elsif version_number == '4.2.9'
         # bundle install errs, it says "You have requested: nokogiri ~> 1.6.0. The bundle currently has nokogiri locked at 1.8.0.
         FileUtils.rm_f('Gemfile.lock')
+
+        patch 'Gemfile' do |contents|
+          # SDoc was upgraded to a major version, but had a few minor issues (see #30801).
+          # We leave the original dependency, which is customary anyway.
+          contents.sub(/gem 'sdoc'.*/, "gem 'sdoc', '~> 0.4.0'")
+        end
+      elsif version_number == '4.2.10'
+        patch 'Gemfile' do |contents|
+          # See the comment above for 4.2.9.
+          contents.sub(/gem 'sdoc'.*/, "gem 'sdoc', '~> 0.4.0'")
+        end
       end
 
       patch 'Gemfile' do |contents|
