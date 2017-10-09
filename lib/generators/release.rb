@@ -38,6 +38,9 @@ module Generators
           contents.sub(/gem 'sdoc'.*/, "gem 'sdoc', '~> 0.4.0'")
         end
       elsif version_number == '4.2.10'
+        # There is a dependency on json that doesn't play well with the following downgrade.
+        FileUtils.rm_f('Gemfile.lock')
+
         patch 'Gemfile' do |contents|
           # See the comment above for 4.2.9.
           contents.sub(/gem 'sdoc'.*/, "gem 'sdoc', '~> 0.4.0'")
