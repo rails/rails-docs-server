@@ -23,7 +23,7 @@ module Generators
           # This dependency could not be satisfied.
           contents.sub(/^.*delayed_job_active_record.*$/, '')
         end
-      elsif version_number >= '4.2.8'
+      elsif version_number == '4.2.8'
         # The Nokogiri dependency fixed in Gemfile.lock errs with
         #
         #   nokogiri-1.7.0 requires ruby version >= 2.1.0, which is incompatible with the current version, ruby 2.0.0p598
@@ -45,12 +45,20 @@ module Generators
           # See the comment above for 4.2.9.
           contents.sub(/gem 'sdoc'.*/, "gem 'sdoc', '~> 0.4.0'")
         end
+      elsif version_number >= '5.1.2' && version_number <= '5.1.4'
+        patch 'guides/source/documents.yaml' do |contents|
+          # This guide was deleted and prevented Kindle guides from being
+          # generated. See https://github.com/rails/rails/issues/29865.
+          contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
+        end
       end
 
-      patch 'Gemfile' do |contents|
-        # kindlerb didn't have a version constraint in some early Gemfiles, and
-        # the current one is no longer compatible.
-        contents.sub(/gem ["']kindlerb["']$/, "gem 'kindlerb', '0.1.1'")
+      if version_number <= '4.2.0'
+        patch 'Gemfile' do |contents|
+          # kindlerb didn't have a version constraint in some early Gemfiles, and
+          # the current one is no longer compatible.
+          contents.sub(/gem ["']kindlerb["']$/, "gem 'kindlerb', '0.1.1'")
+        end
       end
     end
 

@@ -7,6 +7,10 @@ $:.unshift(File.realpath("#{__dir__}/../lib"))
 Minitest::Test.class_eval do
   include FileUtils
 
+  def fixtures_directory
+    File.expand_path('fixtures', __dir__)
+  end
+
   def in_tmpdir
     Dir.mktmpdir do |tmpdir|
       chdir(tmpdir) do
