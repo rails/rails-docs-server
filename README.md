@@ -18,6 +18,10 @@
 
 * `rvm use 2.2.5 do gem install bundler -v 1.14.4 --no-rdoc --no-ri`
 
+* `rvm install 2.3.6`
+
+* `rvm use 2.3.6 do gem install bundler -v 1.16.1 --no-rdoc --no-ri`
+
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
 * `sudo apt-get install imagemagick`, for `convert`, used by the guides generator

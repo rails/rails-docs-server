@@ -2,11 +2,11 @@ module Generators
   module Config
     module Master
       def ruby_version
-        '2.2.5'
+        '2.3.6'
       end
 
       def bundler_version
-        '1.14.4'
+        '1.16.1'
       end
 
       def api_output
