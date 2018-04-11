@@ -17,7 +17,6 @@ module Generators
     def generate_guides
       Dir.chdir('guides') do
         rake 'guides:generate:html', 'ALL' => '1'
-        rake 'guides:generate:kindle'
       end
     end
 

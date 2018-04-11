@@ -122,7 +122,7 @@ class DocsGeneratorTest < Minitest::Test
 
         assert_exists 'master/guides/output/index.html'
         assert_exists 'master/guides/output/index.html.gz'
-        assert_exists "master/guides/output/kindle/ruby_on_rails_guides_#{git_manager.short_sha1}.mobi"
+        refute_exists "master/guides/output/kindle/ruby_on_rails_guides_#{git_manager.short_sha1}.mobi"
 
         assert_equal File.expand_path('master/doc/rdoc'), File.readlink('api/edge')
         assert_equal File.expand_path('master/guides/output'), File.readlink('guides/edge')
