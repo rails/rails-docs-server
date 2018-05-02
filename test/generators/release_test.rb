@@ -16,37 +16,10 @@ class Generators::ReleaseTest < Minitest::Test
 
   def assert_patched(filename)
     assert cmp(filename, "#{filename}.expected"), "incorrect patch:\n#{`diff #{filename} #{filename}.expected`}"
-
   end
 
   def assert_deleted(filename)
     refute File.exist?(filename)
-  end
-
-  def test_before_generation_v4_0_0
-    in_release 'v4.0.0' do
-      assert_patched 'railties/lib/rails/api/task.rb'
-      assert_patched 'Gemfile'
-    end
-  end
-
-  def test_before_generation_v4_2_0
-    in_release 'v4.2.0' do
-      assert_patched 'Gemfile'
-    end
-  end
-
-  def test_before_generation_v4_2_8
-    in_release 'v4.2.8' do
-      assert_deleted 'Gemfile.lock'
-    end
-  end
-
-  def test_before_generation_v4_2_9
-    in_release 'v4.2.9' do
-      assert_deleted 'Gemfile.lock'
-      assert_patched 'Gemfile'
-    end
   end
 
   def test_before_generation_v4_2_10

@@ -7,30 +7,14 @@ module Generators
       # New Rails releases should not need this project to be updated, unless new
       # unavoidable breaking dependencies need to be configured.
       def ruby_version
-        if version_number < '5.0.0'
-          '2.0.0-p598-railsexpress'
-        else
-          '2.2.5'
-        end
+        '2.4.4'
       end
 
       # Always use inequalities and leave an else clause to be forward compatible.
       # New Rails releases should not need this project to be updated, unless new
       # unavoidable breaking dependencies need to be configured.
       def bundler_version
-        if version_number < '4.1.12'
-          '1.3.5'
-        elsif version_number < '4.2.0'
-          '1.10.5'
-        elsif version_number < '4.2.3'
-          '1.7.7'
-        elsif version_number < '4.2.8'
-          '1.10.5'
-        else
-          # 4.2.8 needs a newer bundler because the Gemfile refers to the
-          # :mri_23 platform, which is unknown for 1.10.5 and errs.
-          '1.14.4'
-        end
+        '1.16.1'
       end
 
       def api_output

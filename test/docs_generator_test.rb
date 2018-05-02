@@ -1,3 +1,7 @@
+# Pending.
+
+__END__
+
 require_relative 'test_helper'
 
 require 'docs_generator'
