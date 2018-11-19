@@ -7,7 +7,7 @@ module Generators
       # New Rails releases should not need this project to be updated, unless new
       # unavoidable breaking dependencies need to be configured.
       def ruby_version
-        '2.4.4'
+        '2.5.3'
       end
 
       # Always use inequalities and leave an else clause to be forward compatible.
