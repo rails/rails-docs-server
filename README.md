@@ -10,9 +10,13 @@
 
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
-* `sudo apt-get install imagemagick`, for `convert`, used by the guides generator
+* Install imagemagick, for `convert`, used by the guides generator
+  - Linux: `sudo apt-get install imagemagick`
+  - macOS: `brew install imagemagick`
 
-* `sudo apt-get install libxslt-dev libxml2-dev` for Nokogiri, present in some Gemfiles
+* Nokogiri's dependencies (present in some Gemfiles):
+  - Linux: `sudo apt-get install libxslt-dev libxml2-dev`
+  - macOS: `brew install libxml2` (see [nokgori installation instructions](https://nokogiri.org/tutorials/installing_nokogiri.html))
 
 The Ruby and bundler dependencies are not hard, we fix concrete versions because
 these are known to work. Ruby and bundler versions are configurable per release,
@@ -21,8 +25,10 @@ their target generator to use them.
 
 ## Locale
 
-Make sure the locale is UTF8, in Linux run `locale` and see if the values are
-"en\_US.UTF-8" in general. In Ubuntu edit the file _/etc/default/locale_ and put
+Make sure the locale is UTF8, in Linux/macOS run `locale` and see if the values are
+"en\_US.UTF-8" in general.
+
+In Ubuntu edit the file _/etc/default/locale_ and put
 
 ```
 LC_ALL=en_US.UTF-8
