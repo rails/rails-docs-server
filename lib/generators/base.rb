@@ -13,9 +13,14 @@ module Generators
 
     # @param target [String] A Git reference like 'v4.2.0' or a SHA1
     # @param basedir [String] A directory in which target has been checked out
-    def initialize(target, basedir)
+    def initialize(target, basedir, verbose: false)
       @target  = target
       @basedir = File.expand_path(basedir)
+      @verbose = verbose
+    end
+
+    def dev_null_unless_verbose
+      @verbose ? "" : " > /dev/null"
     end
 
     # Generates the documentation for target within basedir.
@@ -72,7 +77,7 @@ module Generators
     # @param command [String]
     # @param env [Hash{String => String}]
     def run(command, env={})
-      command = "rvm #{ruby_version} do #{command} >/dev/null"
+      command = "rvm #{ruby_version} do #{command}#{dev_null_unless_verbose}"
       log "#{env_as_assigns(env)} #{command}"
       system(env, command)
     end

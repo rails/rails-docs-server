@@ -6,8 +6,13 @@ class GitManager
 
   attr_reader :basedir
 
-  def initialize(basedir)
+  def initialize(basedir, verbose: false)
     @basedir = File.expand_path(basedir)
+    @verbose = verbose
+  end
+
+  def q_unless_verbose
+    @verbose ? "" : "-q"
   end
 
   def remote_rails_url
@@ -18,7 +23,7 @@ class GitManager
     Dir.chdir(basedir) do
       unless Dir.exist?('master')
         log "cloning master into #{basedir}/master"
-        system "git clone -q #{remote_rails_url} master"
+        system "git clone #{q_unless_verbose} #{remote_rails_url} master"
       end
 
       Dir.chdir('master') do
@@ -29,7 +34,7 @@ class GitManager
         # does not change BUNDLED WITH is left as is, even if versions differ,
         # but since docs generation is automated better play safe.
         system 'git checkout Gemfile.lock'
-        system 'git pull -q'
+        system "git pull #{q_unless_verbose}"
       end
     end
   end
@@ -37,10 +42,10 @@ class GitManager
   def checkout(tag)
     Dir.chdir(basedir) do
       log "checking out tag #{tag}"
-      system "git clone -q #{remote_rails_url} #{tag}"
+      system "git clone #{q_unless_verbose} #{remote_rails_url} #{tag}"
 
       Dir.chdir(tag) do
-        system "git checkout -q #{tag}"
+        system "git checkout #{q_unless_verbose} #{tag}"
       end
     end
   end
