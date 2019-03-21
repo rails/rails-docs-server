@@ -6,22 +6,43 @@ require 'lock_file'
 require 'docs_generator'
 require 'git_manager'
 require 'fileutils'
+require 'optparse'
 
-if ARGV.size > 1 || ARGV.first == "-h" || ARGV.first == "--help"
-  puts "USAGE: bin/generate_docs.rb [CHECKOUT_PATH]"
-  exit
-end
+options = {}
 
-CHECKOUT_PATH = ARGV.first || Dir.home
+OptionParser.new do |opts|
+  opts.banner = "Usage: bin/generate_docs.rb [options]"
 
-unless Dir.exists?(CHECKOUT_PATH)
-  FileUtils.mkdir(CHECKOUT_PATH)
+  opts.on("-v", "--verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+
+  opts.on(
+    "-tTARGET",
+    "--target=TARGET",
+    "Target directory where to checkout the code, defaults to HOME"
+  ) do |t|
+    options[:target] = t
+  end
+end.parse!
+
+options[:verbose] = false if options[:verbose].nil?
+options[:target] ||= Dir.home
+options[:target].gsub!(/\/$/, '')
+
+unless Dir.exists?(options[:target])
+  FileUtils.mkdir(options[:target])
 end
 
 LockFile.acquiring('docs_generation.lock') do
-  git_manager = GitManager.new(CHECKOUT_PATH)
+  git_manager = GitManager.new(options[:target], verbose: options[:verbose])
   git_manager.update_master
 
-  generator = DocsGenerator.new(CHECKOUT_PATH, git_manager)
+  generator = DocsGenerator.new(
+    options[:target],
+    git_manager,
+    verbose: options[:verbose]
+  )
+
   generator.generate
 end
