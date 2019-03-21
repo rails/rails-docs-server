@@ -74,7 +74,13 @@ module Generators
     def run(command, env={})
       command = "rvm #{ruby_version} do #{command} >/dev/null"
       log "#{env_as_assigns(env)} #{command}"
-      system(env, command)
+
+      if system(env, command)
+        true
+      else
+        log "\"#{command}\" failed to execute"
+        exit
+      end
     end
 
     # Runs `bundle exec rake` with the appropriate Bundler and Ruby versions.
