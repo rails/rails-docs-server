@@ -35,6 +35,8 @@ module Generators
     end
 
     def generate_guides
+      FileUtils.mkdir('guides') unless Dir.exists?('guides')
+
       Dir.chdir('guides') do
         rake 'guides:generate:html',   'RAILS_VERSION' => target
         rake 'guides:generate:kindle', 'RAILS_VERSION' => target
