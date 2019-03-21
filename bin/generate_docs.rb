@@ -12,7 +12,7 @@ if ARGV.size > 1 || ARGV.first == "-h" || ARGV.first == "--help"
   exit
 end
 
-CHECKOUT_PATH = ARGV.first || File.join(File.dirname(__FILE__), '../checkout')
+CHECKOUT_PATH = ARGV.first || Dir.home
 
 unless Dir.exists?(CHECKOUT_PATH)
   FileUtils.mkdir(CHECKOUT_PATH)
