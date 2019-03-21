@@ -79,7 +79,7 @@ module Generators
         true
       else
         log "\"#{command}\" failed to execute"
-        exit
+        abort
       end
     end
 
