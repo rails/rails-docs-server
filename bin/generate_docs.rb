@@ -11,7 +11,7 @@ require 'optparse'
 options = {}
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: bin/generate_docs.rb [-v|--verbose] [-tTARGET|--target=TARGET]"
+  opts.banner = "Usage: bin/generate_docs.rb [options]"
 
   opts.on("-v", "--verbose", "Run verbosely") do |v|
     options[:verbose] = v
