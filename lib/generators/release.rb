@@ -7,8 +7,8 @@ module Generators
   class Release < Base
     include Config::Release
 
-    def initialize(tag, basedir)
-      super(tag, basedir)
+    def initialize(tag, basedir, verbose: false)
+      super(tag, basedir, verbose: verbose)
       @version_number = VersionNumber.new(tag)
     end
 
