@@ -45,6 +45,10 @@ Be sure to have rvm binaries in your PATH to make RVM scripting work correctly.
 set -gx PATH $HOME/.rvm/bin $PATH
 ```
 
+## Nokogiri
+
+You might need to do `bundle config build.nokogiri --use-system-libraries` on macOS to have nokogiri compile.
+
 ## Deployment
 
 Just push to `master`. The cron job in the docs server pulls before invoking
