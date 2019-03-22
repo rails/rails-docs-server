@@ -1,2 +1,4 @@
 Vagrantfile
 .vagrant
+checkout/
+docs_generation.lock

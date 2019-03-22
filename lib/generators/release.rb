@@ -7,8 +7,8 @@ module Generators
   class Release < Base
     include Config::Release
 
-    def initialize(tag, basedir)
-      super(tag, basedir)
+    def initialize(tag, basedir, verbose: false)
+      super(tag, basedir, verbose: verbose)
       @version_number = VersionNumber.new(tag)
     end
 
@@ -35,6 +35,8 @@ module Generators
     end
 
     def generate_guides
+      FileUtils.mkdir('guides') unless Dir.exists?('guides')
+
       Dir.chdir('guides') do
         rake 'guides:generate:html',   'RAILS_VERSION' => target
         rake 'guides:generate:kindle', 'RAILS_VERSION' => target

@@ -35,6 +35,20 @@ LC_ALL=en_US.UTF-8
 LANG=en_US.UTF-8
 ```
 
+## RVM
+
+Be sure to have rvm binaries in your PATH to make RVM scripting work correctly.
+
+- With fish shell, in `~/.config/fish/config.fish`:
+
+```
+set -gx PATH $HOME/.rvm/bin $PATH
+```
+
+## Nokogiri
+
+You might need to do `bundle config build.nokogiri --use-system-libraries` on macOS to have nokogiri compile.
+
 ## Deployment
 
 Just push to `master`. The cron job in the docs server pulls before invoking
@@ -48,4 +62,4 @@ In order to run the test suite you need a recent version of minitest:
 
 There are two tasks: The default task, `test`, tests everything except actual
 docs generation. The `test:all` task runs the entire suite including doc
-generation for a few releases, this one takes about 20 minutes in my laptop.
+generation for a few releases, this one takes about 20 minutes on my laptop.

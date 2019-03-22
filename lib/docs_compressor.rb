@@ -2,12 +2,14 @@ require 'find'
 require 'fileutils'
 require 'shellwords'
 require 'logging'
+require 'running'
 
 # Compresses HTML, JavaScript, and CSS under the given directory, recursively.
 #
 # We do this to leverage gzip_static in nginx.
 class DocsCompressor
   include Logging
+  include Running
 
   EXTENSIONS = %w(.js .html .css)
 
@@ -40,7 +42,7 @@ class DocsCompressor
     orig = Shellwords.shellescape(file)
     dest = Shellwords.shellescape(gzname(file))
 
-    system %(gzip -c -9 #{orig} > #{dest})
+    log_and_system %(gzip -c -9 #{orig} > #{dest})
   end
 
   def compress_file?(file)

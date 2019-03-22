@@ -66,9 +66,11 @@ class DocsGenerator
   #
   # @param basedir [String]
   # @param git_manager [GitManager]
-  def initialize(basedir, git_manager=GitManager.new(basedir))
+  def initialize(basedir, git_manager = GitManager.new(basedir), verbose: false, tags: nil)
     @basedir     = File.expand_path(basedir)
     @git_manager = git_manager
+    @verbose     = verbose
+    @tags        = tags.to_s.split(',')
   end
 
   def generate
@@ -82,7 +84,14 @@ class DocsGenerator
     new_release_docs = false
 
     git_manager.release_tags.each do |tag|
-      if generate_docs_for_release?(tag)
+      targeted = @tags.any? && @tags.include?(tag)
+
+      if !targeted && @tags.any?
+        log "Skipping #{tag}"
+        next
+      end
+
+      if generate_docs_for_release?(tag) || targeted
         generate_docs_for_release(tag)
         new_release_docs = true
       end
@@ -98,7 +107,7 @@ class DocsGenerator
   def generate_docs_for_release(tag)
     git_manager.checkout(tag)
 
-    generator = Generators::Release.new(tag, tag)
+    generator = Generators::Release.new(tag, tag, verbose: @verbose)
     generator.generate
 
     DocsCompressor.new(generator.api_output).compress
@@ -109,7 +118,17 @@ class DocsGenerator
   end
 
   def generate_edge_docs
-    generator = Generators::Master.new(git_manager.short_sha1, 'master')
+    if @tags.any? && !@tags.include?("edge")
+      log "Skipping edge"
+      return
+    end
+
+    generator = Generators::Master.new(
+      git_manager.short_sha1,
+      'master',
+      verbose: @verbose
+    )
+
     generator.generate
 
     DocsCompressor.new(generator.api_output).compress
