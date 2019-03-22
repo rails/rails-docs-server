@@ -35,6 +35,16 @@ LC_ALL=en_US.UTF-8
 LANG=en_US.UTF-8
 ```
 
+## RVM
+
+Be sure to have rvm binaries in your PATH to make RVM scripting work correctly.
+
+- With fish shell, in `~/.config/fish/config.fish`:
+
+```
+set -gx PATH $HOME/.rvm/bin $PATH
+```
+
 ## Deployment
 
 Just push to `master`. The cron job in the docs server pulls before invoking
