@@ -24,6 +24,13 @@ OptionParser.new do |opts|
   ) do |t|
     options[:target] = t
   end
+
+  opts.on(
+    "--tags=TAGS",
+    "Comma-separated git tags (e.g. Rails versions) to checkout (format: vX.X.X, edge)"
+  ) do |t|
+    options[:tags] = t
+  end
 end.parse!
 
 options[:verbose] = false if options[:verbose].nil?
@@ -41,7 +48,8 @@ LockFile.acquiring('docs_generation.lock') do
   generator = DocsGenerator.new(
     options[:target],
     git_manager,
-    verbose: options[:verbose]
+    verbose: options[:verbose],
+    tags: options[:tags]
   )
 
   generator.generate
