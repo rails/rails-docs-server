@@ -1,2 +1,3 @@
 Vagrantfile
 .vagrant
+docs_generation.lock
