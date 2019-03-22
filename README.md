@@ -58,4 +58,4 @@ In order to run the test suite you need a recent version of minitest:
 
 There are two tasks: The default task, `test`, tests everything except actual
 docs generation. The `test:all` task runs the entire suite including doc
-generation for a few releases, this one takes about 20 minutes in my laptop.
+generation for a few releases, this one takes about 20 minutes on my laptop.
