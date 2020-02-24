@@ -14,7 +14,11 @@ module Generators
       # New Rails releases should not need this project to be updated, unless new
       # unavoidable breaking dependencies need to be configured.
       def bundler_version
-        '1.16.1'
+        if version_number < '6.0.3'
+          '1.16.1'
+        else
+          '2.1.4'
+        end
       end
 
       def api_output

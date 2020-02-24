@@ -8,6 +8,8 @@
 
 * `rvm use 2.5.3 do gem install bundler -v 1.16.1 --no-rdoc --no-ri`
 
+* `rvm use 2.5.3 do gem install bundler -v 2.1.4 --no-rdoc --no-ri`
+
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
 * Install imagemagick, for `convert`, used by the guides generator
