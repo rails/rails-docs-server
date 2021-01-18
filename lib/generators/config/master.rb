@@ -6,7 +6,7 @@ module Generators
       end
 
       def bundler_version
-        '2.1.4'
+        '2.2.3'
       end
 
       def api_output

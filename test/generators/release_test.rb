@@ -39,7 +39,7 @@ class Generators::ReleaseTest < Minitest::Test
 
   def test_bundler_version_on_v6_0_3
     in_release 'v6.0.3' do |generator|
-      assert_equal '2.1.4', generator.bundler_version
+      assert_equal '2.2.3', generator.bundler_version
     end
   end
 
