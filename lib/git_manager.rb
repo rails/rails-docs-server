@@ -16,15 +16,15 @@ class GitManager
     'https://github.com/rails/rails.git'
   end
 
-  def update_master
+  def update_main
     Dir.chdir(basedir) do
-      unless Dir.exist?('master')
-        log "cloning master into #{basedir}/master"
-        log_and_system "git clone -q #{remote_rails_url} master"
+      unless Dir.exist?('main')
+        log "cloning main into #{basedir}/main"
+        log_and_system "git clone -q #{remote_rails_url} main"
       end
 
-      Dir.chdir('master') do
-        log 'updating master'
+      Dir.chdir('main') do
+        log 'updating main'
 
         # Bundler may modify BUNDLED WITH in Gemfile.lock and that may prevent
         # git pull from succeeding. Starting with Bundler 1.10, if Gemfile.lock
@@ -48,7 +48,7 @@ class GitManager
   end
 
   def release_tags
-    Dir.chdir("#{basedir}/master") do
+    Dir.chdir("#{basedir}/main") do
       `git tag`.scan(/^v[\d.]+$/)
     end
   end
@@ -58,7 +58,7 @@ class GitManager
   end
 
   def sha1
-    Dir.chdir("#{basedir}/master") do
+    Dir.chdir("#{basedir}/main") do
       `git rev-parse HEAD`.chomp
     end
   end

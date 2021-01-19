@@ -1,6 +1,6 @@
 module Generators
   module Config
-    module Master
+    module Main
       def ruby_version
         '2.5.3'
       end

@@ -64,15 +64,15 @@ class DocsGeneratorTest < Minitest::Test
       mkdir 'basedir'
 
       git_manager = GitManager.new('basedir')
-      git_manager.update_master
+      git_manager.update_main
 
-      mkdir_p 'master/doc/rdoc'
+      mkdir_p 'main/doc/rdoc'
 
-      html_orphan = 'master/doc/rdoc/orphan.html'
+      html_orphan = 'main/doc/rdoc/orphan.html'
       touch html_orphan
       assert_exists html_orphan # ensure the setup is correct to prevent a false positive later
 
-      html_gz_orphan = 'master/doc/rdoc/orphan.html.gz'
+      html_gz_orphan = 'main/doc/rdoc/orphan.html.gz'
       touch html_gz_orphan
       assert_exists html_gz_orphan # ensure the setup is correct to prevent a false positive later
 
@@ -114,24 +114,24 @@ class DocsGeneratorTest < Minitest::Test
         # --- Edge ---------------------------------------------------------------
         #
 
-        assert_exists 'master/doc/rdoc/index.html'
-        assert_exists 'master/doc/rdoc/index.html.gz'
-        assert_exists 'master/doc/rdoc/edge_badge.png'
+        assert_exists 'main/doc/rdoc/index.html'
+        assert_exists 'main/doc/rdoc/index.html.gz'
+        assert_exists 'main/doc/rdoc/edge_badge.png'
 
-        html = File.read('master/doc/rdoc/files/railties/RDOC_MAIN_rdoc.html')
-        assert html.include?("Ruby on Rails master@#{git_manager.short_sha1}")
+        html = File.read('main/doc/rdoc/files/railties/RDOC_MAIN_rdoc.html')
+        assert html.include?("Ruby on Rails main@#{git_manager.short_sha1}")
         assert html.include?('<img src="/edge_badge.png"')
 
-        assert !File.read('master/doc/rdoc/panel/index.html').include?('edge_badge.png')
+        assert !File.read('main/doc/rdoc/panel/index.html').include?('edge_badge.png')
 
-        assert_exists 'master/guides/output/index.html'
-        assert_exists 'master/guides/output/index.html.gz'
-        refute_exists "master/guides/output/kindle/ruby_on_rails_guides_#{git_manager.short_sha1}.mobi"
+        assert_exists 'main/guides/output/index.html'
+        assert_exists 'main/guides/output/index.html.gz'
+        refute_exists "main/guides/output/kindle/ruby_on_rails_guides_#{git_manager.short_sha1}.mobi"
 
-        assert_equal File.expand_path('master/doc/rdoc'), File.readlink('api/edge')
-        assert_equal File.expand_path('master/guides/output'), File.readlink('guides/edge')
+        assert_equal File.expand_path('main/doc/rdoc'), File.readlink('api/edge')
+        assert_equal File.expand_path('main/guides/output'), File.readlink('guides/edge')
 
-        html = File.read('master/guides/output/index.html')
+        html = File.read('main/guides/output/index.html')
         assert html.include?("Ruby on Rails Guides (#{git_manager.short_sha1})")
         assert html.include?('<img src="images/edge_badge.png"')
 

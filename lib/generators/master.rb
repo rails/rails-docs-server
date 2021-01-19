@@ -1,11 +1,11 @@
 require 'find'
 require 'fileutils'
 require 'generators/base'
-require 'generators/config/master'
+require 'generators/config/main'
 
 module Generators
-  class Master < Base
-    include Config::Master
+  class Main < Base
+    include Config::Main
 
     def generate_api
       start = Time.now

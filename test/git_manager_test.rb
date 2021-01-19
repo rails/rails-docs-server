@@ -12,9 +12,9 @@ class GitManagerTest < Minitest::Test
 
   def test_checkout
     in_tmpdir do
-      mkdir_p 'basedir/master'
+      mkdir_p 'basedir/main'
 
-      chdir 'basedir/master' do
+      chdir 'basedir/main' do
         create_repository
 
         system 'echo t1 > README'
@@ -27,7 +27,7 @@ class GitManagerTest < Minitest::Test
       end
 
       gm = GitManager.new('basedir')
-      gm.stub('remote_rails_url', "file://#{Dir.pwd}/basedir/master") do
+      gm.stub('remote_rails_url', "file://#{Dir.pwd}/basedir/main") do
         gm.checkout('t1')
       end
 
@@ -38,9 +38,9 @@ class GitManagerTest < Minitest::Test
 
   def test_release_tags
     in_tmpdir do
-      mkdir_p 'basedir/master'
+      mkdir_p 'basedir/main'
 
-      chdir 'basedir/master' do
+      chdir 'basedir/main' do
         create_repository
         %w(0.9.4.1 2.3.9.pre 3.0.0_RC2 3.2.8.rc1 3.2.14 v4.0.0.beta1 4.0.1).each do |version|
           system "git tag v#{version}"
@@ -54,10 +54,10 @@ class GitManagerTest < Minitest::Test
 
   def test_sha1_and_short_sha1
     in_tmpdir do
-      mkdir_p 'basedir/master'
+      mkdir_p 'basedir/main'
 
       sha1 = nil
-      chdir 'basedir/master' do
+      chdir 'basedir/main' do
         create_repository
         sha1 = `git rev-parse HEAD`.chomp
       end

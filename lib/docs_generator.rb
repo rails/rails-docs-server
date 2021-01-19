@@ -3,12 +3,12 @@ require 'logging'
 require 'docs_compressor'
 require 'git_manager'
 require 'generators/release'
-require 'generators/master'
+require 'generators/main'
 require 'version_number'
 
 # This class is responsible for coordinating docs generation.
 #
-# The documentation is generated below `basedir`. There, each release and master
+# The documentation is generated below `basedir`. There, each release and main
 # have their own directory:
 #
 #   tag1
@@ -16,7 +16,7 @@ require 'version_number'
 #   tag3
 #   ...
 #   tagN
-#   master
+#   main
 #
 # The generator checks the current release tags of the project to detect new
 # releases in any of the branches from 3.2 up.
@@ -29,7 +29,7 @@ require 'version_number'
 #   api/v4.1.0 -> basedir/v4.1.0/doc/rdoc
 #   api/v4.1   -> api/v4.1.0
 #   api/stable -> api/v4.1.0
-#   api/edge   -> basedir/master/doc/rdoc
+#   api/edge   -> basedir/main/doc/rdoc
 #
 # and same for guides:
 #
@@ -38,7 +38,7 @@ require 'version_number'
 #   guides/v4.1.0 -> basedir/v4.1.0/guides/output
 #   guides/v4.1   -> guides/v4.1.0
 #   guides/stable -> guides/v4.1.0
-#   guides/edge   -> basedir/master/guides/output
+#   guides/edge   -> basedir/main/guides/output
 #
 # If new releases are detected, symlinks are adjusted as needed.
 #
@@ -46,7 +46,7 @@ require 'version_number'
 #
 # Documentation files are further compressed to leverage NGINX gzip_static.
 #
-# The docs generator assumes a master directory with an up to date working
+# The docs generator assumes a main directory with an up to date working
 # copy, it is the responsability of the caller to get that in place via the
 # git manager. It is also the responsibility of the caller to ensure there is
 # only one generator being executed at the same time.
@@ -109,14 +109,14 @@ class DocsGenerator
   end
 
   def generate_edge_docs
-    generator = Generators::Master.new(git_manager.short_sha1, 'master')
+    generator = Generators::Main.new(git_manager.short_sha1, 'main')
     generator.generate
 
     DocsCompressor.new(generator.api_output).compress
     DocsCompressor.new(generator.guides_output).compress
 
     # Force the recreation of the symlink to be forward compatible, if the docs
-    # structure changes in master we need the symlink to point to the new dirs.
+    # structure changes in main we need the symlink to point to the new dirs.
     create_api_symlink(generator.api_output, EDGE, force: true)
     create_guides_symlink(generator.guides_output, EDGE, force: true)
   end
