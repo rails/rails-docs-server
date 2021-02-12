@@ -39,7 +39,7 @@ LANG=en_US.UTF-8
 
 ## Deployment
 
-Just push to `master`. The cron job in the docs server pulls before invoking
+Just push to `main`. The cron job in the docs server pulls before invoking
 the docs generator.
 
 ## Test Suite
