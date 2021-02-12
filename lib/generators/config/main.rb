@@ -2,7 +2,7 @@ module Generators
   module Config
     module Main
       def ruby_version
-        '2.5.3'
+        '2.7.2'
       end
 
       def bundler_version

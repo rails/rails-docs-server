@@ -4,11 +4,17 @@
 
 * RVM
 
+* `rvm install 2.7.2`
+
 * `rvm install 2.5.3`
 
 * `rvm use 2.5.3 do gem install bundler -v 1.16.1 --no-rdoc --no-ri`
 
+* `rvm use 2.5.3 do gem install bundler -v 2.1.4 --no-rdoc --no-ri`
+
 * `rvm use 2.5.3 do gem install bundler -v 2.2.3 --no-rdoc --no-ri`
+
+* `rvm use 2.7.2 do gem install bundler -v 2.2.3 --no-doc`
 
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 

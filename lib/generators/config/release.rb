@@ -16,6 +16,8 @@ module Generators
       def bundler_version
         if version_number < '6.0.3'
           '1.16.1'
+        elsif version_number < '6.1.0'
+          '2.1.4'
         else
           '2.2.3'
         end
