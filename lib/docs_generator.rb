@@ -47,7 +47,7 @@ require 'version_number'
 # Documentation files are further compressed to leverage NGINX gzip_static.
 #
 # The docs generator assumes a main directory with an up to date working
-# copy, it is the responsability of the caller to get that in place via the
+# copy, it is the responsibility of the caller to get that in place via the
 # git manager. It is also the responsibility of the caller to ensure there is
 # only one generator being executed at the same time.
 class DocsGenerator

@@ -24,7 +24,7 @@
 
 * Nokogiri's dependencies (present in some Gemfiles):
   - Linux: `sudo apt-get install libxslt-dev libxml2-dev`
-  - macOS: `brew install libxml2` (see [nokgori installation instructions](https://nokogiri.org/tutorials/installing_nokogiri.html))
+  - macOS: `brew install libxml2` (see [nokogiri installation instructions](https://nokogiri.org/tutorials/installing_nokogiri.html))
 
 The Ruby and bundler dependencies are not hard, we fix concrete versions because
 these are known to work. Ruby and bundler versions are configurable per release,

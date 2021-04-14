@@ -82,7 +82,7 @@ class DocsGeneratorTest < Minitest::Test
       end
 
       #
-      # --- Realeases ----------------------------------------------------------
+      # --- Releases ----------------------------------------------------------
       #
 
       Dir.chdir('basedir') do
