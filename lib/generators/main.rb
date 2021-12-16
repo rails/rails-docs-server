@@ -22,7 +22,7 @@ module Generators
 
     private
 
-    def def before_generation
+    def before_generation
       run "gem install bundler"
     end
 
