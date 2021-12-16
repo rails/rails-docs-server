@@ -18,8 +18,10 @@ module Generators
           '1.16.1'
         elsif version_number < '6.1.0'
           '2.1.4'
-        else
+        elsif version_number < '7.0.0'
           '2.2.3'
+        else
+          nil
         end
       end
 
