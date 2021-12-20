@@ -7,7 +7,7 @@ module Generators
       # New Rails releases should not need this project to be updated, unless new
       # unavoidable breaking dependencies need to be configured.
       def ruby_version
-        if version_number < '7.0.0'
+        if version_number < '6.1.4'
           '2.5.3'
         else
           '2.7.2'
@@ -22,7 +22,7 @@ module Generators
           '1.16.1'
         elsif version_number < '6.1.0'
           '2.1.4'
-        elsif version_number < '7.0.0'
+        elsif version_number < '6.1.4'
           '2.2.3'
         else
           nil
