@@ -14,17 +14,6 @@ module Generators
         end
       end
 
-      # Always use inequalities and leave an else clause to be forward compatible.
-      # New Rails releases should not need this project to be updated, unless new
-      # unavoidable breaking dependencies need to be configured.
-      def bundler_version
-        if version_number < '6.0.3'
-          '1.16.1'
-        else
-          nil
-        end
-      end
-
       def api_output
         "#{basedir}/doc/rdoc"
       end

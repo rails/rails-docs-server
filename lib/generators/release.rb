@@ -27,7 +27,7 @@ module Generators
           # generated. See https://github.com/rails/rails/issues/29865.
           contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
         end
-      elsif version_number >= '7.0.0'
+      elsif version_number >= '5.2.6'
         run 'gem install bundler'
       end
     end

@@ -88,16 +88,12 @@ module Generators
       bundle "exec rake #{command}", env
     end
 
-    # Runs the Bundler command with Bundler version `bundler_version`.
+    # Runs the Bundler command.
     #
     # @param command [String]
     # @param env [Hash{String => String}]
     def bundle(command, env={})
-      if bundler_version
-        run "bundle _#{bundler_version}_ #{command}", env
-      else
-        run "bundle #{command}", env
-      end
+      run "bundle #{command}", env
     end
 
     # Slurps a file, yields its content, and writes whatever the block returns

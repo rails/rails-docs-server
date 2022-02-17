@@ -5,10 +5,6 @@ module Generators
         '2.7.2'
       end
 
-      def bundler_version
-        nil
-      end
-
       def api_output
         "#{basedir}/doc/rdoc"
       end
