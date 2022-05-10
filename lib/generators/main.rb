@@ -10,7 +10,6 @@ module Generators
     def generate_api
       start = Time.now
       rake 'rdoc', 'EDGE' => '1', 'ALL' => '1'
-      insert_edge_badge
       delete_orphan_files_in_api(start)
     end
 
@@ -24,24 +23,6 @@ module Generators
 
     def before_generation
       run "gem install bundler"
-    end
-
-    def insert_edge_badge
-      %w(classes files).each do |subdir|
-        Find.find("#{api_output}/#{subdir}") do |fname|
-          next unless fname.end_with?('.html')
-
-          # This is a bit hackish but simple enough. Future API tools would
-          # ideally have support for this like we have in the guides.
-          html = File.read(fname, encoding: 'ASCII-8BIT')
-          unless html.include?('<img src="/edge_badge.png"')
-            html.sub!(%r{<body[^>]*>}, '\\&<div><img src="/edge_badge.png" alt="edge badge" style="position:fixed;right:0px;top:0px;z-index:100;border:none;"/></div>')
-            File.write(fname, html)
-          end
-        end
-      end
-
-      FileUtils.cp('guides/assets/images/edge_badge.png', api_output)
     end
 
     # Edge API generation does not remove doc/rdoc to easily have no downtime
