@@ -10,7 +10,7 @@ module Generators
         if version_number < '6.0.4'
           '2.5.3'
         else
-          '2.7.2'
+          '2.7.6'
         end
       end
 
