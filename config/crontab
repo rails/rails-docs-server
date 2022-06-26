@@ -35,5 +35,4 @@ BASH_ENV=~/.profile
 @daily cd ~/main && git prune && git gc
 @daily cd ~/rails-contributors/shared/rails.git && git prune && git gc
 
-@reboot cd ~/rails-contributors/current && bundle exec puma -C /home/rails/rails-contributors/shared/puma.rb --daemon
 @reboot cd ~/rails-master-hook && bin/server start
