@@ -5,6 +5,9 @@ require 'git_manager'
 class GitManagerTest < Minitest::Test
   def create_repository
     system 'git init -q .'
+    system 'git config user.name "Test"'
+    system 'git config user.email "test@example.com"'
+    system 'git config commit.gpgsign false'
     system 'touch README'
     system 'git add README'
     system 'git commit -q -m "test" README'
