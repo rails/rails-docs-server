@@ -19,12 +19,18 @@ class Generators::ReleaseTest < Minitest::Test
   end
 
   def assert_deleted(filename)
-    refute File.exist?(filename)
+    refute File.exist?(filename), "#{filename} exists"
   end
 
   def test_before_generation_v4_2_10
     in_release 'v4.2.10' do
       assert_deleted 'Gemfile.lock'
+      assert_patched 'Gemfile'
+    end
+  end
+
+  def test_before_generation_v6_1_7_5
+    in_release 'v6.1.7.5' do
       assert_patched 'Gemfile'
     end
   end
