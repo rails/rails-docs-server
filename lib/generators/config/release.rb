@@ -11,8 +11,10 @@ module Generators
           '2.5.3'
         elsif version_number < '7.2.0'
           '2.7.6'
-        else
+        elsif version_number < '8.0'
           '3.1.4'
+        else
+          '3.2.5'
         end
       end
 
