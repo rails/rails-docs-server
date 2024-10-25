@@ -29,9 +29,7 @@ module Generators
           contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
         end
       elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
-        log "rm Gemfile.lock"
-        # There is a dependency on nokogiri that doesn't play well with sqlite3
-        FileUtils.rm_f('Gemfile.lock')
+        bundle 'lock --add-platform x86_64-linux'
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|
           contents << "\ngem \"loofah\", \"< 2.21.0\"\n"
