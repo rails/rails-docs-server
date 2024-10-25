@@ -29,6 +29,9 @@ module Generators
           contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
         end
       elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
+        patch 'Gemfile' do |contents|
+          contents << "\ngem \"zeitwerk\", \"< 2.7.0\"\n"
+        end
         bundle 'lock --add-platform x86_64-linux --add-platform ruby --update nokogiri --update azure-storage-blob'
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|

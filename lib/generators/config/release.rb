@@ -9,8 +9,6 @@ module Generators
       def ruby_version
         if version_number < '6.0.4'
           '2.5.3'
-        elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
-          '3.2.5'
         elsif version_number < '7.2.0'
           '2.7.6'
         elsif version_number < '8.0'
