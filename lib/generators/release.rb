@@ -14,6 +14,7 @@ module Generators
 
     def before_generation
       if version_number == '4.2.10'
+        log "rm Gemfile.lock"
         # There is a dependency on json that doesn't play well with the following downgrade.
         FileUtils.rm_f('Gemfile.lock')
 
@@ -27,7 +28,8 @@ module Generators
           # generated. See https://github.com/rails/rails/issues/29865.
           contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
         end
-      elsif Gem::Version.new(version_number) >= Gem::Version.new('6.1.7.9') && version_number < '7.0.0'
+      elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
+        log "rm Gemfile.lock"
         # There is a dependency on nokogiri that doesn't play well with sqlite3
         FileUtils.rm_f('Gemfile.lock')
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'

@@ -27,6 +27,7 @@ class VersionNumberTest < Minitest::Test
     assert VersionNumber.new('4')     < '4.0.0.1'
     assert VersionNumber.new('4.2')   < '4.10'
     assert VersionNumber.new('4.2.1') < '4.2.2'
+    assert VersionNumber.new('4.2.6.10') >= '4.2.6.9'
   end
 
   def assert_version(expected_parts, version)
