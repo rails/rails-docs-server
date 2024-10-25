@@ -32,7 +32,7 @@ module Generators
         patch 'Gemfile' do |contents|
           contents << "\nruby \"< 3.0.0\"\n"
         end
-        bundle 'lock --add-platform x86_64-linux --add-platform ruby --update nokogiri --update azure-storage-blob'
+        bundle 'lock --add-platform x86_64-linux --add-platform ruby --update nokogiri --update azure-storage-blob --update public_suffix --update zeitwerk'
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|
           contents << "\ngem \"loofah\", \"< 2.21.0\"\n"
