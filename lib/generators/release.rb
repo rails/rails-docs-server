@@ -29,7 +29,7 @@ module Generators
           contents.sub(/^\s+name: Profiling Rails Applications[^-]+-\n/, '')
         end
       elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
-        bundle 'lock --add-platform x86_64-linux'
+        bundle 'lock --add-platform x86_64-linux --add-platform ruby --update nokogiri --update azure-storage-blob'
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|
           contents << "\ngem \"loofah\", \"< 2.21.0\"\n"
