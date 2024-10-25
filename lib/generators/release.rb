@@ -30,9 +30,10 @@ module Generators
         end
       elsif version_number >= '6.1.7.9' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|
-          contents << "\nruby \"< 3.0.0\"\n"
+          contents << "\ngem \"zeitwerk\", \"< 2.7.0\"\n"
+          contents << "\ngem \"public_suffix\", \"< 6.0\"\n"
         end
-        bundle 'lock --add-platform x86_64-linux --update nokogiri --update azure-storage-blob --update public_suffix --update zeitwerk --update sqlite3'
+        bundle 'lock --add-platform ruby --update nokogiri --update azure-storage-blob --update public_suffix --update zeitwerk --update sqlite3'
       elsif version_number >= '6.1.7.5' && version_number < '7.0.0'
         patch 'Gemfile' do |contents|
           contents << "\ngem \"loofah\", \"< 2.21.0\"\n"
