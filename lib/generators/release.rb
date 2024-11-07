@@ -43,8 +43,8 @@ module Generators
         run 'gem install bundler'
 
         patch 'Gemfile' do |contents|
-          content.sub(/gem \"delayed_job\".*/, "# gem \"delayed_job\"")
-          content.sub(/gem \"delayed_job_active_record\".*/, "# gem \"delayed_job_active_record\"")
+          contents.sub(/gem \"delayed_job\".*/, "# gem \"delayed_job\"")
+          contents.sub(/gem \"delayed_job_active_record\".*/, "# gem \"delayed_job_active_record\"")
         end
       end
     end
