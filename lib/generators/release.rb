@@ -41,6 +41,11 @@ module Generators
         end
       elsif version_number >= '5.2.6'
         run 'gem install bundler'
+
+        patch 'Gemfile' do |contents|
+          content.sub(/gem \"delayed_job\".*/, "# gem \"delayed_job\"")
+          content.sub(/gem \"delayed_job_active_record\".*/, "# gem \"delayed_job_active_record\"")
+        end
       end
     end
 
