@@ -25,7 +25,7 @@ module Generators
       elsif version_number == '8.0.3'
         # sdoc 2.6.2 has a bug with RDoc
         patch 'Gemfile' do |contents|
-          contents.sub(/gem "sdoc".*/, "gem \"sdoc\", \"~> 2.6.3\"")
+          contents.sub(/gem "sdoc".*/, "gem \"sdoc\", \"~> 2.6.4\"")
         end
       elsif version_number >= '5.1.2' && version_number <= '5.1.4'
         patch 'guides/source/documents.yaml' do |contents|
