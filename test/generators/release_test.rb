@@ -42,4 +42,10 @@ class Generators::ReleaseTest < Minitest::Test
       end
     end
   end
+
+  def test_before_generation_v8_0_3
+    in_release 'v8.0.3' do
+      assert_patched 'Gemfile'
+    end
+  end
 end
