@@ -27,6 +27,10 @@ module Generators
         patch 'Gemfile' do |contents|
           contents.sub(/gem "sdoc".*/, "gem \"sdoc\", \"~> 2.6.4\"")
         end
+
+        patch 'guides/assets/stylesrc/components/_code-container.scss' do |contents|
+          contents.sub(/^\s+overflow: scroll;/, "")
+        end
       elsif version_number >= '5.1.2' && version_number <= '5.1.4'
         patch 'guides/source/documents.yaml' do |contents|
           # This guide was deleted and prevented Kindle guides from being
