@@ -34,5 +34,3 @@ BASH_ENV=~/.profile
 # the repo is kept in good shape.
 @daily cd ~/main && git prune && git gc
 @daily cd ~/rails-contributors/shared/rails.git && git prune && git gc
-
-@reboot cd ~/rails-master-hook && bin/server start
