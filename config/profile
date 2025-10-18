@@ -1,0 +1,5 @@
+export RAILS_ENV=production
+export RAILS_WEBHOOK=$HOME/rails-master-hook
+export RUN_FILE=$RAILS_WEBHOOK/run-rails-master-hook
+export LOCK_FILE=$RAILS_WEBHOOK/lock-rails-master-hook
+export CONTRIB_APP_LOCK_FILE=$HOME/rails-contributors/current/tmp/updating

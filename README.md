@@ -51,6 +51,20 @@ LC_ALL=en_US.UTF-8
 LANG=en_US.UTF-8
 ```
 
+## Setup
+
+After cloning the repository, add the environment configuration to your profile:
+
+```bash
+echo "" >> ~/.profile
+echo "# Source rails-docs-server environment configuration" >> ~/.profile
+echo "[ -f ~/rails-docs-server/config/profile ] && . ~/rails-docs-server/config/profile" >> ~/.profile
+```
+
+Or simply run the cron job once, which will automatically add this line if it doesn't exist.
+
+Note: The `rails_master_hook.sh` script automatically ensures `~/.profile` sources `config/profile`, so any updates to `config/profile` will be picked up automatically without overwriting your existing `~/.profile` customizations.
+
 ## Deployment
 
 Just push to `main`. The cron job in the docs server pulls before invoking
