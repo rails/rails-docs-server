@@ -7,7 +7,7 @@
 SHELL=/bin/bash
 BASH_ENV=~/.profile
 
-*/1 * * * *  ~/bin/rails_master_hook.sh
+*/1 * * * *  ~/rails-docs-server/bin/rails_master_hook.sh
 
 # The lock file is created and deleted by the master hook. That is a shell
 # script so even if something crashes, the parent process will finish just fine.
