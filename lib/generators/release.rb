@@ -54,6 +54,7 @@ module Generators
         patch 'Gemfile' do |contents|
           contents.sub!(/gem \"delayed_job\".*/, "# gem \"delayed_job\"")
           contents.sub!(/gem \"delayed_job_active_record\".*/, "# gem \"delayed_job_active_record\"")
+          contents
         end
       end
     end
