@@ -7,6 +7,9 @@ set -ex
 if [ ! -e $LOCK_FILE ]; then
     if [ -e $RUN_FILE ] || [ -n "$FORCE" ]; then
         touch $LOCK_FILE
+        # Ensure lock file is removed even if the script fails
+        trap "rm -f $LOCK_FILE" EXIT
+
         rm -f $RUN_FILE
 
         cd ~/rails-docs-server
@@ -26,7 +29,5 @@ if [ ! -e $LOCK_FILE ]; then
         # This is important, docs generation is expensive,
         # better wipe the cache when that is finished.
         nice --adjustment=19 bin/update_rails_contributors.sh
-
-        rm $LOCK_FILE
     fi
 fi
