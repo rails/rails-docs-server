@@ -41,6 +41,9 @@ if [ ! -e $LOCK_FILE ]; then
         echo "▶ Updating Rails contributors..."
         nice --adjustment=19 bin/update_rails_contributors.sh
 
+        # Explicitly cleanup on success
+        cleanup
+
         echo "✓ Execution completed successfully"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     fi
