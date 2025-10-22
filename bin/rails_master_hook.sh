@@ -8,7 +8,7 @@ if [ ! -e $LOCK_FILE ]; then
     if [ -e $RUN_FILE ] || [ -n "$FORCE" ]; then
         touch $LOCK_FILE
         # Ensure lock file is removed even if the script fails
-        trap "rm -f $LOCK_FILE" EXIT
+        trap 'echo "Cleaning up lock file"; rm -f "$LOCK_FILE"' EXIT
 
         rm -f $RUN_FILE
 
