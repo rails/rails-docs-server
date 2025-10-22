@@ -2,13 +2,18 @@
 
 set -ex
 
+cleanup() {
+    echo "Cleaning up lock file: $LOCK_FILE"
+    rm -f "$LOCK_FILE"
+}
+
 # this is run by cron, so there are no practical race
 # conditions with these checks
 if [ ! -e $LOCK_FILE ]; then
     if [ -e $RUN_FILE ] || [ -n "$FORCE" ]; then
         touch $LOCK_FILE
         # Ensure lock file is removed even if the script fails
-        trap 'echo "Cleaning up lock file"; rm -f "$LOCK_FILE"' EXIT
+        trap cleanup EXIT
 
         rm -f $RUN_FILE
 
