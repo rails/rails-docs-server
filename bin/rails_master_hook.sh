@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eo pipefail
 
 : "${LOCK_FILE:?LOCK_FILE must be set}"
 : "${RUN_FILE:?RUN_FILE must be set}"
