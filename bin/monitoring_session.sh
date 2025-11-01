@@ -21,7 +21,7 @@ tmux set-option -t "$SESSION_NAME" status-left-length 40
 tmux new-window -t "${SESSION_NAME}":1 -n "docs-log" -c "$HOME" "sudo journalctl -t rails-docs-generator -f"
 tmux new-window -t "${SESSION_NAME}":2 -n "puma-hook" -c "$ROOT_DIR" "sudo journalctl -u rails-master-hook_puma_production -f"
 tmux new-window -t "${SESSION_NAME}":3 -n "hook-script" -c "$ROOT_DIR" "sudo journalctl -t rails-master-hook -f"
-tmux new-window -t "${SESSION_NAME}":5 -n "puma-contributors" -c "$ROOT_DIR" "sudo journalctl -u rails-contributors_puma_production -f"
+tmux new-window -t "${SESSION_NAME}":4 -n "puma-contributors" -c "$ROOT_DIR" "sudo journalctl -u rails-contributors_puma_production -f"
 
 tmux select-window -t "${SESSION_NAME}":1
 exec tmux attach -t "$SESSION_NAME"
