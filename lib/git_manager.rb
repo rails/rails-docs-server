@@ -39,11 +39,7 @@ class GitManager
   def checkout(tag)
     Dir.chdir(basedir) do
       log "checking out tag #{tag}"
-      log_and_system "git clone -q #{remote_rails_url} #{tag}"
-
-      Dir.chdir(tag) do
-        log_and_system "git checkout -q #{tag}"
-      end
+      log_and_system "git -c advice.detachedHead=false clone -q --depth 1 --single-branch --branch #{tag} #{remote_rails_url} #{tag}"
     end
   end
 
