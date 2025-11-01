@@ -46,6 +46,7 @@ class Generators::ReleaseTest < Minitest::Test
   def test_before_generation_v8_0_3
     in_release 'v8.0.3' do
       assert_patched 'Gemfile'
+      assert_patched 'guides/assets/stylesrc/components/_code-container.scss'
     end
   end
 end
