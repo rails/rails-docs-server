@@ -42,7 +42,7 @@ if [ ! -e "$LOCK_FILE" ]; then
 
         echo "▶ Generating documentation..."
         docs_failed=0
-        if ! nice --adjustment=19 bin/generate_docs.rb >> "$HOME/docs_generation.log" 2>&1; then
+        if ! systemd-cat --identifier=rails-docs-generator nice --adjustment=19 bin/generate_docs.rb; then
             docs_failed=1
             echo "⚠️ Documentation generation failed; continuing with contributor update."
         fi
