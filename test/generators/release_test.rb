@@ -49,4 +49,10 @@ class Generators::ReleaseTest < Minitest::Test
       assert_patched 'guides/assets/stylesrc/components/_code-container.scss'
     end
   end
+
+  def test_before_generation_v7_0_9
+    in_release 'v7.0.9' do
+      assert_patched 'Gemfile.lock'
+    end
+  end
 end

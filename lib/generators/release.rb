@@ -48,6 +48,10 @@ module Generators
         patch 'Gemfile' do |contents|
           contents << "\ngem \"loofah\", \"< 2.21.0\"\n"
         end
+      elsif version_number >= '7.0.9' && version_number < '7.1.0'
+        patch 'Gemfile.lock' do |contents|
+          contents.sub(/^BUNDLED WITH\n\s+\d+\.\d+\.\d+/, "BUNDLED WITH\n   2.4.19")
+        end
       elsif version_number >= '5.2.6'
         run 'gem install bundler'
 
