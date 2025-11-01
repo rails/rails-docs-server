@@ -16,11 +16,11 @@ fi
 
 # Bootstrap the monitoring windows when the session does not already exist.
 tmux new-session -d -s "$SESSION_NAME" -n "btop" -c "$ROOT_DIR" "btop"
-tmux new-window -t "${SESSION_NAME}":2 -n "docs-log" -c "$HOME" "tail -F $HOME/docs_generation.log"
-tmux new-window -t "${SESSION_NAME}":3 -n "puma-hook" -c "$ROOT_DIR" "sudo journalctl -u rails-master-hook_puma_production -f"
-tmux new-window -t "${SESSION_NAME}":4 -n "hook-script" -c "$ROOT_DIR" "sudo journalctl -t rails-master-hook -f"
-tmux new-window -t "${SESSION_NAME}":5 -n "puma-error" -c "$HOME" "tail -F $HOME/rails-contributors/current/log/puma_error.log"
-tmux new-window -t "${SESSION_NAME}":6 -n "puma-access" -c "$HOME" "tail -F $HOME/rails-contributors/current/log/puma_access.log"
+tmux new-window -t "${SESSION_NAME}":1 -n "docs-log" -c "$HOME" "tail -F $HOME/docs_generation.log"
+tmux new-window -t "${SESSION_NAME}":2 -n "puma-hook" -c "$ROOT_DIR" "sudo journalctl -u rails-master-hook_puma_production -f"
+tmux new-window -t "${SESSION_NAME}":3 -n "hook-script" -c "$ROOT_DIR" "sudo journalctl -t rails-master-hook -f"
+tmux new-window -t "${SESSION_NAME}":4 -n "puma-error" -c "$HOME" "tail -F $HOME/rails-contributors/current/log/puma_error.log"
+tmux new-window -t "${SESSION_NAME}":5 -n "puma-access" -c "$HOME" "tail -F $HOME/rails-contributors/current/log/puma_access.log"
 
 tmux select-window -t "${SESSION_NAME}":1
 exec tmux attach -t "$SESSION_NAME"
