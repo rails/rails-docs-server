@@ -50,7 +50,8 @@ module Generators
     # complain about unknown groups, so we can add new groups unconditionally.
     def install_gems
       Dir.chdir(basedir) do
-        bundle 'install --without db test job cable storage ujs'
+        bundle 'config set --local without db:test:job:cable:storage:ujs'
+        bundle 'install'
       end
     end
 
