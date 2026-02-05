@@ -1,3 +1,8 @@
+# Add ~/bin to PATH if not already present
+if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
 export RAILS_ENV=production
 export RAILS_WEBHOOK=$HOME/rails-master-hook
 export RUN_FILE=$RAILS_WEBHOOK/run-rails-master-hook

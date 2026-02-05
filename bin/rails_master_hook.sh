@@ -32,6 +32,15 @@ if [ ! -e "$LOCK_FILE" ]; then
         echo "▶ Pulling latest changes from repository..."
         nice --adjustment=19 git pull -q
 
+        echo "▶ Installing bin scripts to ~/bin..."
+        mkdir -p "$HOME/bin"
+        for script in bin/*; do
+            if [ -f "$script" ]; then
+                cp -f "$script" "$HOME/bin/"
+                chmod +x "$HOME/bin/$(basename "$script")"
+            fi
+        done
+
         # Ensure ~/.profile sources our config/profile
         if ! grep -q "rails-docs-server/config/profile" ~/.profile 2>/dev/null; then
             echo "▶ Updating ~/.profile to source rails-docs-server configuration..."
