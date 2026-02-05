@@ -1,5 +1,7 @@
+require 'fileutils'
 require 'logging'
 require 'running'
+require 'shellwords'
 
 # Lightweight wrapper over Git, shells out everything.
 class GitManager
@@ -13,7 +15,7 @@ class GitManager
   end
 
   def remote_rails_url
-    'https://github.com/rails/rails.git'
+    "#{github_rails_url}.git"
   end
 
   def update_main
@@ -38,8 +40,17 @@ class GitManager
 
   def checkout(tag)
     Dir.chdir(basedir) do
-      log "checking out tag #{tag}"
-      log_and_system "git -c advice.detachedHead=false clone -q --depth 1 --single-branch --branch #{tag} #{remote_rails_url} #{tag}"
+      log "fetching archive for tag #{tag}"
+      FileUtils.rm_rf(tag)
+      FileUtils.mkdir(tag)
+
+      archive_url = remote_archive_url(tag)
+      log "downloading #{archive_url}"
+
+      Dir.chdir(tag) do
+        command = "curl -sSL #{Shellwords.shellescape(archive_url)} | tar -xzf - --strip-components=1"
+        log_and_system 'sh', '-c', command
+      end
     end
   end
 
@@ -57,5 +68,15 @@ class GitManager
     Dir.chdir("#{basedir}/main") do
       `git rev-parse HEAD`.chomp
     end
+  end
+
+  private
+
+  def remote_archive_url(tag)
+    "#{github_rails_url}/archive/refs/tags/#{tag}.tar.gz"
+  end
+
+  def github_rails_url
+    'https://github.com/rails/rails'
   end
 end

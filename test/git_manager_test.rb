@@ -1,6 +1,7 @@
 require_relative 'test_helper'
 
 require 'git_manager'
+require 'shellwords'
 
 class GitManagerTest < Minitest::Test
   def create_repository
@@ -27,10 +28,16 @@ class GitManagerTest < Minitest::Test
         system 'echo t2 > README'
         system 'git commit -aqm "test"'
         system 'git tag t2'
+
+        %w(t1 t2).each do |tag|
+          archive_path = File.expand_path("../#{tag}.tar.gz", Dir.pwd)
+          system 'sh', '-c', "git archive --format=tar --prefix=rails-#{tag}/ #{tag} | gzip > #{Shellwords.escape(archive_path)}"
+        end
       end
 
       gm = GitManager.new('basedir')
-      gm.stub('remote_rails_url', "file://#{Dir.pwd}/basedir/main") do
+      archive_dir = File.expand_path('basedir')
+      gm.stub(:remote_archive_url, ->(requested_tag) { "file://#{File.expand_path("#{requested_tag}.tar.gz", archive_dir)}" }) do
         gm.checkout('t1')
       end
 
