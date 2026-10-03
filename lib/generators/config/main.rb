@@ -2,7 +2,7 @@ module Generators
   module Config
     module Main
       def ruby_version
-        '3.3.4'
+        '3.3.5'
       end
 
       def api_output

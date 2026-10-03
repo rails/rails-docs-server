@@ -22,7 +22,7 @@
 
 * `rvm use 3.1.4 do gem install bundler --no-doc`
 
-* `rvm use 3.2.5 do gem install bundler --no-doc`
+* `rvm use 3.3.5 do gem install bundler --no-doc`
 
 * `kindlegen` must be in `PATH` ([download](http://www.amazon.com/gp/feature.html?docId=1000765211)))
 
